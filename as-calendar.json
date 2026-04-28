@@ -1,0 +1,36 @@
+{
+  "2026-04-22": {
+    "type": "Vacances"
+  },
+  "2026-04-29": {
+    "type": "Vacances"
+  },
+  "2026-05-06": {
+    "type": "Entraînement"
+  },
+  "2026-05-13": {
+    "type": "AS annulé",
+    "infos": "Pas d'entraînement AS annulé"
+  },
+  "2026-05-20": {
+    "type": "Sortie",
+    "horaires": "8h15 - 16h30/17h",
+    "lieu": "Climb'Up Aubervilliers, 110 Avenue Victor Hugo, Aubervilliers",
+    "infos": "Prévoir tenue pour pratiquer + repas froid pour le midi !"
+  },
+  "2026-05-27": {
+    "type": "Entraînement"
+  },
+  "2026-06-03": {
+    "type": "AS annulé",
+    "infos": "Pas d'entraînement AS annulé"
+  },
+  "2026-06-10": {
+    "type": "Entraînement + goûter",
+    "infos": "Prévoir de quoi faire un goûter pour clôturer l'année scolaire !"
+  },
+  "2026-06-17": {
+    "type": "AS annulée",
+    "infos": "Pas d'entraînement AS annulé"
+  }
+}

@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="Banque de données et vidéos explicatives pour réussir en escalade — Collège Françoise Dolto." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Escalade -- Collège Françoise Dolto</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-2: #1e293b;
+      --bg-3: #134e4a;
+      --card: rgba(255, 255, 255, 0.94);
+      --line: rgba(148, 163, 184, 0.35);
+      --shadow: 0 12px 28px rgba(2, 6, 23, 0.28);
+      --shadow-strong: 0 18px 42px rgba(2, 6, 23, 0.35);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 15% 10%, #0d9488 0%, transparent 32%),
+        radial-gradient(circle at 88% 8%, #6366f1 0%, transparent 28%),
+        linear-gradient(155deg, var(--bg), var(--bg-2) 50%, var(--bg-3));
+      color: #e2e8f0;
+    }
+
+    .app {
+      width: min(960px, 100%);
+      margin: 0 auto;
+      padding: 18px 16px 26px;
+    }
+
+    .screen {
+      display: none;
+      gap: 16px;
+    }
+
+    .screen.active {
+      display: grid;
+    }
+
+    #mainMenu {
+      min-height: calc(100dvh - 46px);
+      grid-template-rows: auto auto 1fr auto auto auto 1fr;
+      align-content: stretch;
+    }
+
+    #mainMenu .menu-btn:nth-of-type(1) {
+      grid-row: 4;
+    }
+
+    #mainMenu .menu-btn:nth-of-type(2) {
+      grid-row: 5;
+    }
+
+    #mainMenu .menu-btn:nth-of-type(3) {
+      grid-row: 6;
+    }
+
+    #screenApprentissage,
+    #screenLexique,
+    #screenAs {
+      min-height: calc(100dvh - 46px);
+      grid-template-rows: auto 1fr;
+      align-content: stretch;
+    }
+
+    .home-title {
+      margin: 2px 0 8px;
+      text-align: center;
+      font-size: clamp(1.45rem, 3.8vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.22;
+      color: #f8fafc;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+      letter-spacing: 0.02em;
+      text-wrap: balance;
+    }
+
+    .home-subtitle {
+      margin: 0 auto 10px;
+      max-width: 42rem;
+      text-align: center;
+      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
+      font-weight: 600;
+      line-height: 1.45;
+      color: rgba(226, 232, 240, 0.92);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .menu-btn {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      border: 0;
+      border-radius: var(--radius);
+      overflow: visible;
+      padding: 0;
+      background: transparent;
+      box-shadow: var(--shadow-strong);
+      cursor: pointer;
+      display: block;
+      transform: translateY(0);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    .menu-btn-label {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 92px;
+      padding: 14px 20px;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4.6vw, 2.45rem);
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      color: #111827;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
+
+    .menu-btn-label.section-apprentissage {
+      background: linear-gradient(135deg, #5eead4, #2dd4bf);
+    }
+
+    .menu-btn-label.section-lexique {
+      background: linear-gradient(135deg, #a5b4fc, #818cf8);
+    }
+
+    .menu-btn-label.section-as {
+      background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    }
+
+    .menu-btn:active {
+      transform: translateY(1px) scale(0.996);
+      filter: saturate(0.97);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.14);
+    }
+
+    .sub-diff-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 0;
+      padding: 4px 8px;
+    }
+
+    .banner-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 52px;
+      padding: 8px 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: clamp(1.3rem, 3.3vw, 1.75rem);
+      line-height: 1.1;
+      color: #111827;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+      max-width: min(360px, 74vw);
+      width: 100%;
+    }
+
+    .banner-pill.section-apprentissage {
+      background: linear-gradient(135deg, #5eead4, #2dd4bf);
+    }
+
+    .banner-pill.section-lexique {
+      background: linear-gradient(135deg, #a5b4fc, #818cf8);
+    }
+
+    .banner-pill.section-as {
+      background: linear-gradient(135deg, #fcd34d, #f59e0b);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 0;
+      padding: 10px 12px;
+    }
+
+    .toolbar.tinted {
+      background: var(--tint, var(--card));
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar.tinted[data-tint="apprentissage"] {
+      --tint: linear-gradient(135deg, #5eead4, #14b8a6);
+    }
+
+    .toolbar.tinted[data-tint="lexique"] {
+      --tint: linear-gradient(135deg, #a5b4fc, #6366f1);
+    }
+
+    .toolbar.tinted[data-tint="as"] {
+      --tint: linear-gradient(135deg, #fcd34d, #f59e0b);
+    }
+
+    .toolbar.tinted .back-btn {
+      background: rgba(255, 255, 255, 0.92);
+      color: #0f172a;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .back-btn {
+      border: 0;
+      border-radius: 12px;
+      min-height: 44px;
+      min-width: 96px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: #e5e7eb;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .back-btn:active {
+      transform: scale(0.98);
+      filter: brightness(0.97);
+    }
+
+    .text-list-btn {
+      width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
+      border: 0;
+      border-radius: 12px;
+      min-height: 56px;
+      font-size: clamp(0.96rem, 1.9vw, 1.04rem);
+      font-weight: 700;
+      text-align: left;
+      line-height: 1.2;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.26);
+      color: #eaf2ff;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      box-shadow: 0 2px 6px rgba(2, 6, 23, 0.12);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .section-list {
+      display: grid;
+      gap: 4px;
+      align-content: start;
+      justify-items: center;
+      overflow: auto;
+      min-height: 0;
+      padding-bottom: 4px;
+    }
+
+    .text-list-btn:active {
+      transform: scale(0.995);
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+    }
+
+    .section-list.section-list--grid {
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      gap: 8px;
+      justify-items: stretch;
+      padding-bottom: 8px;
+    }
+
+    .text-list-btn.text-list-btn--card {
+      max-width: none;
+      margin: 0;
+      min-height: 118px;
+      font-size: clamp(0.84rem, 1.5vw, 0.96rem);
+      text-align: center;
+      line-height: 1.15;
+      padding: 8px;
+      display: grid;
+      grid-template-rows: 62px auto;
+      justify-items: center;
+      align-content: center;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .text-list-media {
+      width: 100%;
+      height: 62px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: rgba(15, 23, 42, 0.14);
+    }
+
+    .text-list-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .text-list-emoji {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .text-list-label {
+      width: 100%;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .detail-card {
+      background: transparent;
+      border-radius: var(--radius);
+      box-shadow: none;
+      border: 0;
+      padding: 8px 0 16px;
+    }
+
+    .detail-banner-title-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 6px;
+    }
+
+    .detail-banner-title {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(1.45rem, 3.5vw, 2.1rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: #111827;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+
+    .detail-intro {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border-left: 6px solid #14b8a6;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ccfbf1, #99f6e4);
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      line-height: 1.45;
+      color: #115e59;
+      font-weight: 700;
+      white-space: pre-line;
+    }
+
+    .detail-intro.is-hidden {
+      display: none;
+    }
+
+    .detail-lexique-img {
+      width: 100%;
+      max-width: min(100%, 520px);
+      max-height: min(48dvh, 380px);
+      margin: 0 auto 6px;
+      display: block;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .detail-lexique-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-width: min(100%, 680px);
+      margin: 0 auto 8px;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .detail-lexique-duo img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      background: #fff;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    .detail-lexique-baudrier-layout {
+      display: grid;
+      grid-template-columns: minmax(98px, 1fr) minmax(98px, 1fr) minmax(110px, 0.78fr);
+      gap: 12px;
+      align-items: start;
+      margin: 0 auto 10px;
+      max-width: min(100%, 960px);
+    }
+
+    .detail-lexique-baudrier-img {
+      width: 100%;
+      max-width: 210px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      justify-self: center;
+    }
+
+    .detail-lexique-baudrier-layout .detail-lexique-caption-plain-strong {
+      margin: 0;
+      text-align: right;
+      justify-self: end;
+    }
+
+    @media (max-width: 520px) {
+      .detail-lexique-baudrier-layout {
+        gap: 8px;
+      }
+      .detail-lexique-baudrier-layout .detail-lexique-caption-plain-strong {
+        font-size: clamp(0.8rem, 2.8vw, 0.92rem);
+      }
+    }
+
+    .detail-lexique-caption {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748b;
+      text-align: center;
+      margin: 0 auto 12px;
+      max-width: 400px;
+    }
+
+    .detail-lexique-caption-strong {
+      display: block;
+      font-size: clamp(0.94rem, 2vw, 1.02rem);
+      font-weight: 800;
+      color: #0f172a;
+      text-align: center;
+      margin: 4px auto 14px;
+      max-width: 700px;
+      line-height: 1.35;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(15, 23, 42, 0.16);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+
+    .detail-lexique-caption-plain-strong {
+      display: block;
+      font-size: clamp(0.94rem, 2vw, 1.02rem);
+      font-weight: 800;
+      color: #0f172a;
+      text-align: center;
+      margin: 4px auto 14px;
+      max-width: 700px;
+      line-height: 1.35;
+    }
+
+    .triangle-affiche {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto 16px;
+      display: block;
+      border: 0;
+      outline: 0;
+      box-shadow: none;
+      background: transparent;
+      height: auto;
+      max-height: min(85dvh, 980px);
+      object-fit: contain;
+    }
+
+    .detail-lexique-body {
+      display: block;
+      margin-top: 4px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .detail-map-embed {
+      width: 100%;
+      max-width: 860px;
+      height: min(42dvh, 340px);
+      border: 0;
+      border-radius: 12px;
+      display: block;
+      margin: 8px auto 0;
+      background: #e2e8f0;
+    }
+
+    .as-calendar {
+      display: grid;
+      gap: 10px;
+    }
+
+    .as-calendar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .as-calendar-month {
+      font-weight: 800;
+      color: #0f172a;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .as-calendar-btn {
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+      color: #1e3a8a;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .as-calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .as-calendar-cell {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      min-height: 48px;
+      background: #ffffff;
+      color: #334155;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      padding: 4px;
+      font-size: 0.9rem;
+    }
+
+    .as-calendar-cell.is-weekday {
+      min-height: 30px;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border-style: dashed;
+    }
+
+    .as-calendar-cell.is-out {
+      opacity: 0.38;
+      background: #f8fafc;
+    }
+
+    .as-calendar-cell.is-training {
+      background: #fff7ed;
+      border-color: #fdba74;
+      color: #9a3412;
+      cursor: pointer;
+      position: relative;
+      font-weight: 800;
+    }
+
+    .as-calendar-emoji {
+      position: absolute;
+      top: 1px;
+      right: 4px;
+      font-size: 1.15rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .as-calendar-cell.is-training:hover {
+      background: #ffedd5;
+      border-color: #fb923c;
+      transform: translateY(-1px);
+    }
+
+    .as-calendar-cell.is-selected {
+      outline: 3px solid #fdba74;
+      outline-offset: -2px;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+    }
+
+    .as-calendar-cell.is-cancelled {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #991b1b;
+    }
+
+    .as-calendar-cell.is-cancelled::before {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: linear-gradient(45deg, transparent 48%, #dc2626 48%, #dc2626 52%, transparent 52%);
+      pointer-events: none;
+    }
+
+    .as-calendar-cell.is-vacation {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0c4a6e;
+    }
+
+    .as-calendar-cell.is-past {
+      filter: saturate(0.75) brightness(1.12);
+      opacity: 0.68;
+    }
+
+    .as-calendar-cell.is-vacation::before {
+      content: "";
+      position: absolute;
+      inset: 2px;
+      background: linear-gradient(45deg, transparent 48%, #0284c7 48%, #0284c7 52%, transparent 52%);
+      pointer-events: none;
+    }
+
+    .as-calendar-note {
+      font-size: 0.85rem;
+      color: #475569;
+      text-align: center;
+      margin: 0;
+    }
+
+    .as-calendar-legend-item {
+      display: inline-block;
+      white-space: nowrap;
+      margin: 0 4px;
+    }
+
+    .as-calendar-detail {
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .as-calendar-extra {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      color: #9a3412;
+      font-weight: 800;
+    }
+
+    #detailMenu[data-section="lexique"] .detail-intro {
+      border-left-color: #6366f1;
+      background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+      color: #312e81;
+    }
+
+    #detailMenu[data-section="as"] .detail-intro {
+      border-left: 0;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      color: #0f172a;
+    }
+
+    .detail-illustration {
+      width: min(100%, 640px);
+      max-height: 34vh;
+      object-fit: contain;
+      border-radius: 12px;
+      margin: 0 0 12px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border: 0;
+    }
+
+    .detail-illustration-large {
+      width: 100%;
+      max-height: none;
+    }
+
+    .detail-illustration-medium {
+      width: min(100%, 560px);
+      max-height: 50vh;
+      object-fit: contain;
+    }
+
+    .detail-pdf-frame {
+      width: 100%;
+      height: min(62vh, 640px);
+      border: 1px solid rgba(15, 23, 42, 0.2);
+      border-radius: 12px;
+      background: #ffffff;
+      margin: 0 0 12px;
+    }
+
+    .detail-resource-link {
+      display: inline-block;
+      margin: 0 0 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #e0f2fe;
+      color: #0c4a6e;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #bae6fd;
+    }
+
+    .detail-note-strong {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 1.1em;
+      font-weight: 800;
+    }
+
+    .detail-safety {
+      color: #dc2626;
+      font-weight: 900;
+    }
+
+    .detail-sub-title {
+      margin: 22px auto 10px;
+      width: fit-content;
+      max-width: 100%;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+      border: 1px solid #a78bfa;
+      box-shadow: 0 3px 10px rgba(124, 58, 237, 0.2);
+      text-align: center;
+      font-size: clamp(1.05rem, 2.3vw, 1.28rem);
+      font-weight: 800;
+      line-height: 1.25;
+      color: #312e81;
+    }
+
+    .detail-sub-title.is-hidden {
+      display: none;
+    }
+
+    .detail-video-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0f172a;
+      position: relative;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+    }
+
+    .detail-video-wrap.is-hidden {
+      display: none;
+    }
+
+    .detail-video {
+      display: block;
+      width: 100%;
+      max-height: min(52vh, 420px);
+      background: #000;
+    }
+
+    .detail-video.is-hidden {
+      display: none;
+    }
+
+    .detail-video-placeholder {
+      margin: 0;
+      min-height: min(36vh, 280px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      font-weight: 700;
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      color: #e5e7eb;
+      background: linear-gradient(160deg, #1f2937, #111827);
+    }
+
+    .detail-video-placeholder.is-hidden {
+      display: none;
+    }
+
+    #detailMenu {
+      min-height: calc(100dvh - 46px);
+      /* minmax(0,1fr) : la zone texte peut défiler sans écraser l’image au-dessus */
+      grid-template-rows: auto minmax(0, 1fr);
+      align-content: stretch;
+    }
+
+    #detailMenu .detail-card {
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (max-width: 1024px) {
+      .app {
+        width: min(860px, 100%);
+        padding: 14px;
+      }
+
+      .menu-btn-label {
+        min-height: 82px;
+        font-size: clamp(1.55rem, 4.2vw, 2.15rem);
+      }
+
+      .home-title {
+        font-size: clamp(1.2rem, 3.2vw, 1.75rem);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .menu-btn-label {
+        min-height: 74px;
+        font-size: clamp(1.35rem, 4.6vw, 1.85rem);
+      }
+
+      .home-title {
+        font-size: clamp(1.1rem, 4.2vw, 1.55rem);
+      }
+
+      .home-subtitle {
+        font-size: clamp(0.88rem, 3.2vw, 1rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section id="mainMenu" class="screen active">
+      <h1 class="home-title">Escalade -- Collège Françoise Dolto</h1>
+      <p class="home-subtitle">
+        Retrouvez ici une banque de données et des vidéos explicatives pour réussir en escalade
+      </p>
+
+      <button type="button" class="menu-btn" data-section="apprentissage">
+        <span class="menu-btn-label section-apprentissage">Apprentissage</span>
+      </button>
+      <button type="button" class="menu-btn" data-section="lexique">
+        <span class="menu-btn-label section-lexique">Lexique</span>
+      </button>
+      <button type="button" class="menu-btn" data-section="as">
+        <span class="menu-btn-label section-as">AS</span>
+      </button>
+    </section>
+
+    <section id="screenApprentissage" class="screen">
+      <div class="toolbar tinted" data-tint="apprentissage">
+        <button type="button" class="back-btn" data-back-to="main">Retour</button>
+        <div class="sub-diff-wrap">
+          <span class="banner-pill section-apprentissage">Apprentissage</span>
+        </div>
+        <div style="width:96px;"></div>
+      </div>
+      <div id="listApprentissage" class="section-list"></div>
+    </section>
+
+    <section id="screenLexique" class="screen">
+      <div class="toolbar tinted" data-tint="lexique">
+        <button type="button" class="back-btn" data-back-to="main">Retour</button>
+        <div class="sub-diff-wrap">
+          <span class="banner-pill section-lexique">Lexique</span>
+        </div>
+        <div style="width:96px;"></div>
+      </div>
+      <div id="listLexique" class="section-list"></div>
+    </section>
+
+    <section id="screenAs" class="screen">
+      <div class="toolbar tinted" data-tint="as">
+        <button type="button" class="back-btn" data-back-to="main">Retour</button>
+        <div class="sub-diff-wrap">
+          <span class="banner-pill section-as">AS</span>
+        </div>
+        <div style="width:96px;"></div>
+      </div>
+      <div id="listAs" class="section-list"></div>
+    </section>
+
+    <section id="detailMenu" class="screen" data-section="">
+      <div class="toolbar tinted" id="detailToolbar" data-tint="apprentissage">
+        <button type="button" id="detailBackBtn" class="back-btn">Retour</button>
+        <div class="detail-banner-title-wrap">
+          <h1 id="detailTitle" class="detail-banner-title"></h1>
+        </div>
+        <div style="width:96px;"></div>
+      </div>
+
+      <article class="detail-card">
+        <div id="detailIntro" class="detail-intro is-hidden" role="article"></div>
+
+        <div class="detail-video-wrap" id="detailVideoBlock1">
+          <video
+            id="detailVideo1"
+            class="detail-video is-hidden"
+            controls
+            playsinline
+            preload="metadata"
+          ></video>
+          <p id="detailVideoPlaceholder1" class="detail-video-placeholder">Vidéo à venir</p>
+        </div>
+
+        <h2 id="detailSubTitle" class="detail-sub-title"></h2>
+
+        <div class="detail-video-wrap" id="detailVideoBlock2">
+          <video
+            id="detailVideo2"
+            class="detail-video is-hidden"
+            controls
+            playsinline
+            preload="metadata"
+          ></video>
+          <p id="detailVideoPlaceholder2" class="detail-video-placeholder">Vidéo à venir</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /** @type {Record<string, string[]>} */
+      var ITEMS_BY_SECTION = {
+        apprentissage: [
+          "Comment mettre son baudrier",
+          "Comment faire son huit",
+          "Comment faire son double huit",
+          "Comment faire son nœud d'arrêt",
+          "Comment mettre son système d'assurage",
+          "Comment assurer (faire les 5 temps)",
+          "Triangle de vérification",
+          "Règles d'or"
+        ],
+        lexique: [
+          "Baudrier",
+          "Chaussons",
+          "Clipper / Mousquetonner",
+          "Corde",
+          "Dalle",
+          "Dégaine",
+          "Départ !",
+          "Descente !",
+          "Dévers",
+          "Du mou !",
+          "Les 5 temps",
+          "Moulinette",
+          "Mousqueton",
+          "Nœud d'arrêt",
+          "Nœud de huit",
+          "Panier / Descendeur",
+          "Parade",
+          "Relais",
+          "Sec !",
+          "Système d'assurage",
+          "Verticale"
+        ],
+        as: [
+          "Informations",
+          "Inscription",
+          "Calendrier"
+        ]
+      };
+
+      var LIST_VISUALS = {
+        apprentissage: {
+          "Comment mettre son baudrier": "images/baudrier.png",
+          "Comment assurer (faire les 5 temps)": "images/assurer-5-temps.png",
+          "Triangle de vérification": "images/triangle-verification.png",
+          "Règles d'or": "images/triangle-verification.png"
+        },
+        lexique: {
+          Baudrier: "images/baudrier.png",
+          Chaussons: "images/chaussons.jpg",
+          Corde: "images/corde.jpg",
+          Dalle: "images/dalle.jpg",
+          "Dégaine": "images/degaine.jpeg",
+          "Départ !": "images/depart.jpg",
+          "Descente !": "images/descente.jpg",
+          "Dévers": "images/devers.jpg",
+          "Du mou !": "images/mou.png",
+          Parade: "images/parade.png",
+          "Les 5 temps": "images/assurer-5-temps.png",
+          Moulinette: "images/moulinette.png",
+          Mousqueton: "images/mousqueton.jpg",
+          "Clipper / Mousquetonner": "images/mousquetonner-1.png",
+          "Nœud d'arrêt": "images/noeud-arret.png",
+          "Nœud de huit": "images/noeud-huit.png",
+          "Panier / Descendeur": "images/panier.png",
+          Relais: "images/relais.png",
+          "Sec !": "images/sec.png",
+          "Système d'assurage": "images/systeme-assurage.png",
+          Verticale: "images/verticale.png"
+        },
+        as: {}
+      };
+
+      function fallbackEmoji(sectionId) {
+        if (sectionId === "apprentissage") return "🧗";
+        if (sectionId === "lexique") return "🪢";
+        return "✅";
+      }
+
+      /**
+       * Contenu par fiche : clé = "sectionId|Libellé exact du bouton liste"
+       * Champs optionnels : intro, subTitle, video1, video2, video1Label, video2Label, hideVideos
+       */
+      var DETAIL_OVERRIDES = {};
+      DETAIL_OVERRIDES["apprentissage|Comment mettre son baudrier"] = {
+        introHtml:
+          "<img class=\"detail-illustration\" src=\"images/comment-mettre-baudrier.png\" alt=\"Schéma du baudrier avec pontet et sangles\" /><br>" +
+          "Il s’enfile comme un pantalon.<br>" +
+          "Pour être mis correctement, le baudrier doit :<br>" +
+          "—&gt; Avoir le <strong style=\"color:#111827;\">pontet devant et au niveau du nombril</strong>. " +
+          "(<strong style=\"color:#dc2626;\">Les sangles de la taille sont au-dessus des hanches</strong>)<br>" +
+          "—&gt; Avoir les sangles au niveau des cuisses qui ne vrillent pas. Les sangles sont plates (ne font pas de tour)<br>" +
+          "—&gt; Tous les vêtements sont rentrés dans le baudrier.<br>" +
+          "—&gt; Toutes les sangles sont serrées et rangées.<br><br>" +
+          "<span class=\"detail-note-strong\">⚠️ On serre d'abord la sangle au niveau de la taille <span class=\"detail-safety\">(sécurité)</span>, ensuite on serre celles des cuisses (confort).</span>",
+        intro:
+          "Il s’enfile comme un pantalon.\n" +
+          "Pour être mis correctement, le baudrier doit :\n" +
+          "—> Avoir le pontet devant et au niveau du nombril. (Les sangles de la taille sont au-dessus des hanches)\n" +
+          "—> Avoir les sangles au niveau des cuisses qui ne vrillent pas. Les sangles sont plates (ne font pas de tour)\n" +
+          "—> Tous les vêtements sont rentrés dans le baudrier.\n" +
+          "—> Toutes les sangles sont serrées et rangées.\n\n" +
+          "⚠️ On sert d'abord la sangle au niveau de la taille (sécurité) , ensuite on sert celles des cuisses (confort).",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Comment faire son huit"] = {
+        introHtml:
+          "Le nœud de huit est un nœud réalisé par le grimpeur.<br><br>" +
+          "<strong><u>Explication n°1 : Les deux tours</u></strong><br>" +
+          "—&gt; On prend le bout de corde dans une main, on tend le bras sur le côté, l'autre main au niveau de l'épaule opposée (on lâche le bout de la corde et on garde la corde dans l'autre main)<br>" +
+          "—&gt; On fait faire deux tours à la boucle (en la faisant tourner deux fois)<br>" +
+          "—&gt; On rentre le bout de la corde dans la boucle.<br><br>" +
+          "<strong><u>Explication n°2 : La tête de la sorcière</u></strong><br>" +
+          "—&gt; On prend le bout de corde dans une main, on tend le bras sur le côté, l'autre main au niveau de l'épaule opposée (on lâche le bout de la corde et on garde la corde dans l'autre main)<br>" +
+          "—&gt; On fait la tête de la sorcière (en faisant une boucle)<br>" +
+          "—&gt; On l'étrangle (en faisant le tour de sa \"tête\" avec la corde)<br>" +
+          "—&gt; On lui crève un œil (en faisant rentrer la corde dans la boucle)",
+        intro:
+          "Le noeud de huit est un noeud réalisé par le grimpeur.\n" +
+          "Explication n°1 : Les deux tours\n" +
+          "—> On prend le bout de corde dans une main, on tend le bras sur le côté, l'autre main au niveau de l'épaule opposée (on lâche le bout de la corde et on garde la corde dans l'autre main)\n" +
+          "—> On fait faire deux tours à la boucle (en la faisant tourner deux fois)\n" +
+          "—> On rentre le bout de la corde dans la boucle.\n\n" +
+          "Explication n°2 : La tête de la sorcière\n" +
+          "—> On prend le bout de corde dans une main, on tend le bras sur le côté, l'autre main au niveau de l'épaule opposée (on lâche le bout de la corde et on garde la corde dans l'autre main)\n" +
+          "—> On fait la tête de la sorcière (en faisant une boucle)\n" +
+          "—> On l'étrangle (en faisant le tour de sa \"tête\" avec la corde)\n" +
+          "—> On lui crève un oeil (en faisant rentrer la corde dans la boucle)",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Comment faire son double huit"] = {
+        introHtml:
+          "Le nœud en double huit est un nœud réalisé par le grimpeur.<br><br>" +
+          "—&gt; Le nœud de huit doit être le plus proche possible du pontet. Pour cela, je passe mon brin de corde dans le pontet de bas en haut et je rapproche mon huit au niveau du pontet.<br>" +
+          "—&gt; Je retrace le chemin de la corde (du huit) en veillant à bien garder notre nœud proche du pontet.<br>" +
+          "—&gt; Je serre bien mon nœud (je tire dessus pour le serrer)",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Comment faire son nœud d'arrêt"] = {
+        introHtml:
+          "—&gt; On prend la \"petite\" corde, elle fait le tour de la grande corde en faisant une boucle, et on rentre le bout de la corde dans cette boucle.<br>" +
+          "—&gt; Le nœud d'arrêt doit être en butée (au contact) contre le nœud de huit.<br><br>" +
+          "<span class=\"detail-note-strong\">⚠️⚠️ Les deux nœuds sont obligatoires pour pouvoir grimper ! ⚠️⚠️</span><br><br>" +
+          "—&gt; Le nœud d'arrêt permet de garantir qu'il y ait suffisamment de corde et que le nœud en double huit ne puisse pas se défaire en cas de chute.",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Comment mettre son système d'assurage"] = {
+        introHtml:
+          "—&gt; Je prends le brin de corde qui est de l'autre côté du relais, \"je le plie en deux\" (de sorte que cela fasse une sorte de boucle).<br>" +
+          "—&gt; La corde du grimpeur (la corde qui monte) doit être du côté du bonhomme qui grimpe sur le descendeur. Car \"le grimpeur doit monter\".<br>" +
+          "—&gt; La corde de vie doit être du côté où il y a la petite gorge sur le panier. Car \"la corde de vie descend et l'assureur lui reste au sol\".<br>" +
+          "—&gt; Je mets le mousqueton en prenant le soin de passer dans la corde et le \"câble noir\" du panier.<br>" +
+          "—&gt; Je l'installe afin d'avoir le côté de la corde de vie sur ma main forte.",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Comment assurer (faire les 5 temps)"] = {
+        introHtml:
+          "<img class=\"detail-illustration detail-illustration-large\" src=\"images/assurer-5-temps.png\" alt=\"Schéma des 5 temps pour assurer\" /><br>" +
+          "—&gt; Après avoir installé le système d'assurage correctement, l'assureur va \"tendre\" la corde pendant que le grimpeur est encore au sol afin d'éviter des gestes inutiles et de permettre au grimpeur de commencer son ascension en toute sécurité.<br>" +
+          "—&gt; L'assureur va se placer \"sous le relais\" à 1m du mur.<br><br>" +
+          "1 - Je fais coulisser la corde dans le descendeur / panier (d'un côté à l'autre)<br>" +
+          "2 - Je bloque la corde en redescendant ma main et mon bras<br><br>" +
+          "<span class=\"detail-note-strong\">⚠️ L'étape 1 et l'étape 2 se font quasiment en même temps, il ne doit pas y avoir de temps d'arrêt entre ces deux étapes.</span><br><br>" +
+          "3 - Je ramène ma main de la \"corde du grimpeur\" (corde du haut) vers ma main sur la corde de vie en passant <strong>DEVANT</strong> le système d'assurage (et non pas entre le système d'assurage et mon ventre)<br><br>" +
+          "4 - Je passe ma main basse par dessus l'autre (en restant sur la corde de vie)<br>" +
+          "<span class=\"detail-note-strong\">⚠️ Je reste dans cette position tant que je n'effectue pas de nouveau les étapes 1 et 2. Cette position est la plus sécuritaire car je n'ai pas le bras en l'air (donc moins fatiguant) et j'ai les deux mains sur la corde de vie (plus sécuritaire)</span><br><br>" +
+          "5 - Je reviens en position de départ, puis j'enchaîne l'étape 1 puis l'étape 2, etc.",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Triangle de vérification"] = {
+        introHtml:
+          "<img class=\"triangle-affiche\" src=\"images/triangle-verification.png\" alt=\"Triangle de vérification avant de grimper une voie : les 3 étapes\" loading=\"lazy\" />" +
+          "<img class=\"triangle-affiche\" src=\"images/triangle-verification-23.png\" alt=\"Check-list de vérification, frein d'assurage, nœud en bout de corde et feu vert du cadre\" loading=\"lazy\" />" +
+          "<div class=\"detail-triangle-follow\">" +
+          "1 - Je me vérifie moi-même.<br>" +
+          "2 - On se vérifie mutuellement dans le groupe.<br>" +
+          "3 - On appelle l'enseignant pour qu'il vienne nous vérifier.<br><br>" +
+          "<span class=\"detail-note-strong detail-safety\">⚠️ On ne grimpe jamais sans la vérification de l'enseignant avant chaque voie ! ⚠️</span>" +
+          "</div>",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["apprentissage|Règles d'or"] = {
+        introHtml:
+          "<strong><u>1 - Triangle de vérification</u></strong><br>" +
+          "—&gt; Je me vérifie moi-même.<br>" +
+          "—&gt; On se vérifie mutuellement dans le groupe.<br>" +
+          "—&gt; On appelle l'enseignant pour qu'il vienne nous vérifier.<br><br>" +
+          "<span class=\"detail-note-strong\">2 - L'assureur ne lâche jamais la corde de vie !</span><br><br>" +
+          "<span class=\"detail-note-strong\">3 - En moulinette, le grimpeur ne touche / ne s'accroche jamais à une dégaine !</span>",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["as|Informations"] = {
+        introHtml:
+          '<img class="detail-illustration" src="images/as-logo.png" alt="Logo AS Dolto Villepinte" /><br>' +
+          "<strong>Les mercredis de 13h45 à 15h45</strong><br><br>" +
+          '<img class="detail-illustration detail-illustration-medium" src="images/as-gymnase.png" alt="Mur d\'escalade du gymnase Victor Hugo" /><br>' +
+          "<strong>Au gymnase Victor Hugo</strong><br><br>" +
+          '<iframe class="detail-map-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Gymnase%20Victor%20Hugo%2C%20Bd%20du%20Pr%C3%A9sident%20Kennedy%2C%2093420%20Villepinte&z=16&output=embed" title="Carte du Gymnase Victor Hugo, Villepinte"></iframe>',
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["as|Inscription"] = {
+        introHtml:
+          "<strong>Inscription</strong><br><br>" +
+          "Pour s'inscrire à l'AS, il faut rendre à un professeur d'EPS le règlement de la licence (30€ sans T-shirt ou 40€ avec T-shirt) avec la fiche d'inscription complètement complétée.<br><br>" +
+          '<a class="detail-resource-link" href="fiche-inscription-as-2024-2025.pdf" download>Télécharger la fiche d\'inscription AS 2024-2025 (PDF)</a>',
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["as|Calendrier"] = {
+        introHtml:
+          '<div class="as-calendar" id="asCalendar">' +
+          '<div class="as-calendar-nav">' +
+          '<button class="as-calendar-btn" type="button" data-cal-nav="-1">◀</button>' +
+          '<span class="as-calendar-month" id="asCalendarMonth"></span>' +
+          '<button class="as-calendar-btn" type="button" data-cal-nav="1">▶</button>' +
+          "</div>" +
+          '<div class="as-calendar-grid" id="asCalendarGrid"></div>' +
+          '<p class="as-calendar-note">Les mercredis d’AS sont surlignés en orange. Clique sur un mercredi pour afficher le détail.</p>' +
+          '<p class="as-calendar-note"><strong>Légende emojis :</strong> <span class="as-calendar-legend-item">🧗‍♂️ Entraînement</span> | <span class="as-calendar-legend-item">🍪 Goûter</span> | <span class="as-calendar-legend-item">🏆 Compétition</span> | <span class="as-calendar-legend-item">🎒 Sortie</span> | <span class="as-calendar-legend-item">📝 Formation</span> | <span class="as-calendar-legend-item">❗️❌ AS annulé(e)</span> | <span class="as-calendar-legend-item">🏖️😎 Vacances</span></p>' +
+          '<div class="as-calendar-detail" id="asCalendarDetail">Sélectionne un mercredi pour afficher le type d’entraînement, l’horaire, les sorties et les autorisations.</div>' +
+          "</div>",
+        hideVideos: true
+      };
+
+      var AS_CALENDAR_EVENTS_DEFAULT = {
+        "2026-04-22": {
+          type: "Vacances"
+        },
+        "2026-04-29": {
+          type: "Vacances"
+        },
+        "2026-05-06": {
+          type: "Entraînement"
+        },
+        "2026-05-13": {
+          type: "AS annulé",
+          infos: "Pas d'entraînement AS annulé"
+        },
+        "2026-05-20": {
+          type: "Sortie",
+          horaires: "8h15 - 16h30/17h",
+          lieu: "Climb'Up Aubervilliers, 110 Avenue Victor Hugo, Aubervilliers",
+          infos: "Prévoir tenue pour pratiquer + repas froid pour le midi !"
+        },
+        "2026-05-27": {
+          type: "Entraînement"
+        },
+        "2026-06-03": {
+          type: "AS annulé",
+          infos: "Pas d'entraînement AS annulé"
+        },
+        "2026-06-10": {
+          type: "Entraînement + goûter",
+          infos: "Prévoir de quoi faire un goûter pour clôturer l'année scolaire !"
+        },
+        "2026-06-17": {
+          type: "AS annulée",
+          infos: "Pas d'entraînement AS annulé"
+        }
+      };
+
+      var AS_CALENDAR_EVENTS = JSON.parse(JSON.stringify(AS_CALENDAR_EVENTS_DEFAULT));
+      var asCalendarState = { year: 0, month: 0, selectedDate: "", eventsLoaded: false, loadingPromise: null };
+
+      function formatYmd(y, m, d) {
+        var mm = String(m + 1).padStart(2, "0");
+        var dd = String(d).padStart(2, "0");
+        return y + "-" + mm + "-" + dd;
+      }
+
+      function escapeHtml(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function mapsUrlFromLieu(lieu) {
+        var q = encodeURIComponent(String(lieu || "").trim());
+        return "https://www.google.com/maps/search/?api=1&query=" + q;
+      }
+
+      function getTypeEmoji(type) {
+        var t = String(type || "").toLowerCase();
+        if (t.indexOf("annulé") >= 0 || t.indexOf("annule") >= 0) return "❗️❌";
+        if ((t.indexOf("entraînement") >= 0 || t.indexOf("entrainement") >= 0) && (t.indexOf("goûter") >= 0 || t.indexOf("gouter") >= 0)) return "🧗‍♂️🍪";
+        if (t.indexOf("vacances") >= 0) return "🏖️😎";
+        if (t.indexOf("entraînement") >= 0 || t.indexOf("entrainement") >= 0) return "🧗‍♂️";
+        if (t.indexOf("goûter") >= 0 || t.indexOf("gouter") >= 0) return "🍪";
+        if (t.indexOf("compétition") >= 0 || t.indexOf("competition") >= 0) return "🏆";
+        if (t.indexOf("sortie") >= 0) return "🎒";
+        if (t.indexOf("formation") >= 0) return "📝";
+        return "";
+      }
+
+      function enrichAsEvent(e) {
+        var ev = {
+          type: e && e.type ? e.type : "",
+          horaires: e && e.horaires ? e.horaires : "",
+          lieu: e && e.lieu ? e.lieu : "",
+          infos: e && e.infos ? e.infos : ""
+        };
+        var t = String(ev.type || "").toLowerCase();
+        var isTraining = t.indexOf("entraînement") >= 0 || t.indexOf("entrainement") >= 0;
+        var isVacation = t.indexOf("vacances") >= 0;
+        if (isVacation) {
+          ev.horaires = "";
+          ev.lieu = "";
+          if (!ev.infos) ev.infos = "Passez de bonnes vacances et prenez soin de vous 😉";
+        }
+        if (isTraining) {
+          if (!ev.horaires) ev.horaires = "13h45 - 15h45";
+          if (!ev.lieu) ev.lieu = "Gymnase Victor Hugo, Bd du Président Kennedy, 93420 Villepinte";
+        }
+        return ev;
+      }
+
+      function initAsCalendar() {
+        var root = document.getElementById("asCalendar");
+        if (!root) return;
+        if (!asCalendarState.year) {
+          var now = new Date();
+          asCalendarState.year = now.getFullYear();
+          asCalendarState.month = now.getMonth();
+        }
+
+        root.querySelectorAll("[data-cal-nav]").forEach(function (btn) {
+          btn.onclick = function () {
+            var delta = Number(btn.getAttribute("data-cal-nav") || "0");
+            var m = asCalendarState.month + delta;
+            var y = asCalendarState.year;
+            if (m < 0) { m = 11; y -= 1; }
+            if (m > 11) { m = 0; y += 1; }
+            asCalendarState.month = m;
+            asCalendarState.year = y;
+            asCalendarState.selectedDate = "";
+            renderAsCalendar();
+          };
+        });
+
+        if (asCalendarState.eventsLoaded) {
+          renderAsCalendar();
+          return;
+        }
+        if (!asCalendarState.loadingPromise) {
+          asCalendarState.loadingPromise = fetch("as-calendar.json", { cache: "no-store" })
+            .then(function (r) {
+              if (!r.ok) throw new Error("fetch calendrier impossible");
+              return r.json();
+            })
+            .then(function (data) {
+              if (data && typeof data === "object") {
+                AS_CALENDAR_EVENTS = data;
+              }
+            })
+            .catch(function () {
+              AS_CALENDAR_EVENTS = JSON.parse(JSON.stringify(AS_CALENDAR_EVENTS_DEFAULT));
+            })
+            .finally(function () {
+              asCalendarState.eventsLoaded = true;
+              renderAsCalendar();
+            });
+        }
+      }
+
+      function renderAsCalendar() {
+        var monthEl = document.getElementById("asCalendarMonth");
+        var gridEl = document.getElementById("asCalendarGrid");
+        var detailEl = document.getElementById("asCalendarDetail");
+        if (!monthEl || !gridEl || !detailEl) return;
+
+        var monthNames = [
+          "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+          "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ];
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var weekNames = ["Lun", "Mar", "Mer", "Jeu", "Ven"];
+        monthEl.textContent = monthNames[asCalendarState.month] + " " + asCalendarState.year;
+        gridEl.innerHTML = "";
+        weekNames.forEach(function (w) {
+          var cell = document.createElement("div");
+          cell.className = "as-calendar-cell is-weekday";
+          cell.textContent = w;
+          gridEl.appendChild(cell);
+        });
+
+        var first = new Date(asCalendarState.year, asCalendarState.month, 1);
+        var start = new Date(first);
+        start.setDate(first.getDate() - ((first.getDay() + 6) % 7)); // lundi de la 1re semaine affichée
+        var last = new Date(asCalendarState.year, asCalendarState.month + 1, 0);
+        var end = new Date(last);
+        end.setDate(last.getDate() + (5 - ((last.getDay() + 6) % 7))); // vendredi de la dernière semaine affichée
+
+        for (var cur = new Date(start); cur <= end; cur.setDate(cur.getDate() + 1)) {
+          var weekday = cur.getDay(); // 0 dimanche ... 6 samedi
+          if (weekday === 0 || weekday === 6) continue; // masquer samedi/dimanche
+
+          var y = cur.getFullYear();
+          var m = cur.getMonth();
+          var d = cur.getDate();
+          var dateKey = formatYmd(y, m, d);
+          var dateAtMidnight = new Date(y, m, d);
+          dateAtMidnight.setHours(0, 0, 0, 0);
+          var isWednesday = weekday === 3;
+          var hasEvent = !!AS_CALENDAR_EVENTS[dateKey];
+          var inCurrentMonth = m === asCalendarState.month;
+          var isPast = dateAtMidnight < today;
+          var eventDataRaw = AS_CALENDAR_EVENTS[dateKey] || {};
+          var typeLower = String(eventDataRaw.type || "").toLowerCase();
+          var isCancelled = typeLower.indexOf("annulé") >= 0 || typeLower.indexOf("annule") >= 0;
+          var isVacation = typeLower.indexOf("vacances") >= 0;
+
+          var dayCell = document.createElement("button");
+          dayCell.type = "button";
+          dayCell.className = "as-calendar-cell";
+          if (!inCurrentMonth) dayCell.classList.add("is-out");
+          if (isWednesday && inCurrentMonth) dayCell.classList.add("is-training");
+          if (isCancelled && inCurrentMonth) dayCell.classList.add("is-cancelled");
+          if (isVacation && inCurrentMonth) dayCell.classList.add("is-vacation");
+          if (isPast && inCurrentMonth) dayCell.classList.add("is-past");
+          if (dateKey === asCalendarState.selectedDate) dayCell.classList.add("is-selected");
+          dayCell.textContent = String(d);
+
+          if (isWednesday && inCurrentMonth) {
+            dayCell.onclick = (function (key) {
+              return function () {
+                asCalendarState.selectedDate = key;
+                renderAsCalendar();
+                var e = enrichAsEvent(AS_CALENDAR_EVENTS[key] || {
+                  type: "",
+                  horaires: "",
+                  lieu: "",
+                  infos: ""
+                });
+                var t = String(e.type || "").toLowerCase();
+                var isVacation = t.indexOf("vacances") >= 0;
+                var infoHtml = e.infos
+                  ? '<span class="as-calendar-extra">' + escapeHtml(e.infos) + "</span>"
+                  : "—";
+                var mapLinkHtml = !isVacation && e.lieu
+                  ? '<br><a class="detail-resource-link" href="' + mapsUrlFromLieu(e.lieu) + '" target="_blank" rel="noopener noreferrer">Voir sur Maps</a>'
+                  : "";
+                detailEl.innerHTML =
+                  "<strong>" + key.split("-").reverse().join("/") + "</strong><br>" +
+                  "Type : " + escapeHtml(e.type || "—") + "<br>" +
+                  (isVacation ? "" : ("Horaires : " + escapeHtml(e.horaires || "—") + "<br>")) +
+                  (isVacation ? "" : ("Lieu : " + escapeHtml(e.lieu || "—") + mapLinkHtml + "<br>")) +
+                  "Informations complémentaires : " + infoHtml;
+              };
+            })(dateKey);
+          } else {
+            dayCell.disabled = true;
+          }
+
+          if (isWednesday && inCurrentMonth) {
+            var eventData = enrichAsEvent(eventDataRaw);
+            var em = getTypeEmoji(eventData && eventData.type);
+            if (em) {
+              var emEl = document.createElement("span");
+              emEl.className = "as-calendar-emoji";
+              emEl.textContent = em;
+              dayCell.appendChild(emEl);
+            }
+          }
+          gridEl.appendChild(dayCell);
+        }
+      }
+
+      (function registerLexique() {
+        var imgs = {
+          baudrier: "images/baudrier.png",
+          chaussons: "images/chaussons.jpg",
+          corde: "images/corde.jpg",
+          dalle: "images/dalle.jpg",
+          degaine: "images/degaine.jpeg",
+          depart: "images/depart.jpg",
+          descente: "images/descente.jpg",
+          devers: "images/devers.jpg",
+          mousqueton: "images/mousqueton.jpg",
+          noeudHuit: "images/noeud-huit.png",
+          panier: "images/panier.png",
+          mou: "images/mou.png",
+          paradeDessin: "images/parade.png",
+          moulinetteDessin: "images/moulinette.png",
+          noeudArretDessin: "images/noeud-arret.png",
+          noeudHuitDessin: "images/noeud-huit.png",
+          relaisDessin: "images/relais.png",
+          secDessin: "images/sec.png",
+          systemeAssurageDessin: "images/systeme-assurage.png",
+          verticaleDessin: "images/verticale.png"
+        };
+
+        function esc(s) {
+          return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+        }
+
+        function lexBlock(src, alt, bodyHtml, creditHtml) {
+          var img =
+            '<img class="detail-lexique-img" src="' +
+            esc(src) +
+            '" alt="' +
+            esc(alt) +
+            '" loading="lazy" referrerpolicy="no-referrer" />';
+          var cap = creditHtml
+            ? '<span class="detail-lexique-caption">' + esc(creditHtml) + "</span>"
+            : "";
+          return img + cap + '<span class="detail-lexique-body">' + bodyHtml + "</span>";
+        }
+
+        var rows = [
+          [
+            "Baudrier",
+            imgs.baudrier,
+            "Harnais de sécurité qui permet le lien entre le grimpeur (ou assureur) et la corde.<br>Le baudrier, c'est comme une \"ceinture de sécurité\" pour l'escalade : il entoure la taille et les cuisses.<br>Sans baudrier bien réglé, on ne grimpe pas."
+          ],
+          [
+            "Chaussons",
+            imgs.chaussons,
+            "⚠️❌ Et non pas chaussures d’escalade ! ❌⚠️<br>C’est ce que vous allez mettre aux pieds pour grimper.<br>Ils doivent être <strong>serrés</strong> afin de t’aider à poser le pied sur les petites prises.<br>Ils doivent être <strong>propres</strong> (pas de boue) pour ne pas salir la salle et pour mieux accrocher."
+          ],
+          [
+            "Corde",
+            imgs.corde,
+            "La corde est l’élément qui va lier le grimpeur à l’assureur et donc servir à sa sécurité !<br>La corde d'escalade est très résistante : elle sert à monter en sécurité quand quelqu'un t'assure.<br>On ne joue jamais avec la corde : c'est un matériel de sécurité."
+          ],
+          [
+            "Dalle",
+            imgs.dalle,
+            "Une dalle, c'est une paroi légèrement inclinée de manière positive, comme une montée / légère pente."
+          ],
+          [
+            "Dégaine",
+            imgs.degaine,
+            "Une dégaine relie deux mousquetons avec une sangle courte.<br>Ça permet d'accrocher la corde aux points fixes du mur.<br>Lorsque l'on grimpe en tête, on doit passer la corde dedans afin d'assurer sa sécurité en cas de chute.<br><br>⚠️ Lorsque l'on grimpe en moulinette, il est interdit de toucher une dégaine (interdit de s'en servir comme prise main ou pied) ⚠️"
+          ],
+          [
+            "Départ !",
+            imgs.depart,
+            "<strong>Départ !</strong> est un mot qu'on crie pour prévenir l'assureur : <em>\"Je pars grimper !\"</em><br>L'assureur répond quand il est prêt (parfois <strong>\"Vas-y !\"</strong>). Ce petit rituel évite de grimper alors que la corde n'est pas prête."
+          ],
+          [
+            "Descente !",
+            imgs.descente,
+            "Annonce de l’assureur à destination du grimpeur pour signaler qu'on va redescendre au sol.<br>L'assureur adapte son assurage pour freiner doucement.<br>On ne crie \"Descente !\" que quand tout le monde est prêt."
+          ],
+          [
+            "Dévers",
+            imgs.devers,
+            "Le <strong>dévers</strong>, c'est une partie de mur qui se penche vers l'extérieur (comme un toit léger).<br>C'est souvent plus difficile pour les bras, car il faut tirer plus fort. Garde les pieds bien placés pour soulager les bras."
+          ],
+          [
+            "Du mou !",
+            imgs.mou,
+            "« Du mou ! » signifie que l’assureur doit donner un peu de corde souple.<br>Le grimpeur le demande quand il veut se déplacer un peu sans être tiré par la corde.<br><br>Ce n'est pas un jeu : on le dit clairement mais uniquement en cas de besoin, et l’assureur ne doit pas trop en donner, puis reprendre si jamais il en a trop donné."
+          ],
+          [
+            "Parade",
+            imgs.paradeDessin,
+            "La <strong>parade</strong>, c'est la bonne position de l'assureur pour protéger le grimpeur.<br>On se place <strong>légèrement en retrait</strong> avec les jambes décalées (pas collé juste dessous), et on garde les <strong>deux mains sur la corde de vie</strong> pour freiner si besoin."
+          ],
+          [
+            "Les 5 temps",
+            "images/assurer-5-temps.png",
+            "Les <strong>5 temps</strong>, c'est la suite de petits gestes de l'assureur pour avaler la corde <strong>en sécurité</strong>.<br>Chaque \"temps\" a un rôle : coulisser, bloquer, revenir en position… L'idée : <strong>ne jamais lâcher la corde de vie</strong> et ne pas faire de geste brusque."
+          ],
+          [
+            "Moulinette",
+            imgs.moulinetteDessin,
+            "La moulinette, c'est grimper avec la corde déjà passée en haut du mur dans le relais.<br>Elle permet de rassurer le grimpeur et de se concentrer uniquement sur le fait de grimper."
+          ],
+          [
+            "Mousqueton",
+            imgs.mousqueton,
+            "Anneau métallique à système de fermeture rapide et sécurisé (automatique ou à vis).<br>On vérifie toujours que l’ouverture est bien fermée (et vissée si besoin)."
+          ],
+          [
+            "Clipper / Mousquetonner",
+            "images/mousquetonner-1.png",
+            "<strong>Mousquetonner</strong>, c'est clipper la corde dans un mousqueton rapidement et proprement, sans vriller la corde.<br>On garde des gestes précis pour rester efficace et en sécurité."
+          ],
+          [
+            "Nœud d'arrêt",
+            imgs.noeudArretDessin,
+            "Petit nœud qu'on fait au bout de la corde pour éviter que le nœud de huit ne se défasse.<br>Les deux sont obligatoires et font partie de la sécurité du grimpeur."
+          ],
+          [
+            "Nœud de huit",
+            imgs.noeudHuitDessin,
+            "Nœud réalisé par le grimpeur et qui ressemble à un \"8\" serré dans la corde.<br>Il sert à attacher la corde au baudrier de façon très solide.<br>Il faut le faire lentement, bien suivre les étapes, et le faire vérifier."
+          ],
+          [
+            "Panier / Descendeur",
+            imgs.panier,
+            "Le descendeur (souvent avec une forme de \"panier\") est un petit matériel où passe la corde pour freiner une descente ou assurer un grimpeur.<br>Attention lors de l’installation à ne pas inverser le sens (corde qui monte du côté de la corde qui monte)."
+          ],
+          [
+            "Relais",
+            imgs.relaisDessin,
+            "Le relais, c'est l'endroit où le mur est équipé de points fixes très solides (souvent des plaquettes et des broches).<br>C’est l’endroit où la corde est attachée lorsque tu grimpes en moulinette."
+          ],
+          [
+            "Sec !",
+            imgs.secDessin,
+            "Mot dit par le grimpeur à destination de l’assureur lorsqu’il veut être tenu, qu’il veut se reposer ou bien redescendre.<br>C'est un signal clair entre grimpeur et assureur. On ne le crie pas pour rigoler : ça aide à se comprendre vite et en sécurité.<br>À ce moment-là, l'assureur réalise les 5 temps pour tendre la corde au maximum puis place ses deux mains sur la corde de vie, en fléchissant légèrement les jambes pour s’alourdir."
+          ],
+          [
+            "Système d'assurage",
+            imgs.systemeAssurageDessin,
+            "Composé d'un mousqueton + d'un panier / descendeur.<br>Le système d’assurage est utilisé par l'assureur et permet, comme son nom l’indique, d’assurer le grimpeur durant l’ascension de sa voie."
+          ],
+          [
+            "Verticale",
+            imgs.verticaleDessin,
+            "Une <strong>verticale</strong>, c'est une paroi plutôt droite (comme un mur).<br>Parfois on la compare à une dalle plus inclinée ou à un dévers plus penché. Pour grimper une verticale, pense à pousser avec les jambes et à garder les bras plutôt tendus quand c'est possible."
+          ]
+        ];
+
+        rows.forEach(function (r) {
+          var title = r[0];
+          var src = r[1];
+          var body = r[2];
+          var credit = r[3];
+          DETAIL_OVERRIDES["lexique|" + title] = {
+            introHtml: lexBlock(src, title, body, credit),
+            hideVideos: true
+          };
+        });
+
+        DETAIL_OVERRIDES["lexique|Parade"] = {
+          introHtml:
+            '<span class="detail-lexique-body"><strong>La parade sert à protéger le grimpeur sur les premiers mouvements et à intervenir rapidement en cas de déséquilibre.</strong><br>On se place correctement, on garde les mains prêtes et on accompagne le grimpeur sans le bloquer.</span><br><br>' +
+            '<img class="detail-lexique-img" src="images/parade.png" alt="Parade : placement de l\'assureur" loading="lazy" />' +
+            '<span class="detail-lexique-caption-plain-strong">Se placer à l’endroit difficile ou suivre la progression du grimpeur<br>Être bien stable</span>' +
+            '<img class="detail-lexique-img" src="images/parade-2.png" alt="Parade : mains proches du grimpeur" loading="lazy" />' +
+            '<span class="detail-lexique-caption-plain-strong">Maintenir les mains proches du grimpeur</span>' +
+            '<img class="detail-lexique-img" src="images/parade-3.png" alt="Parade : saisie au-dessus de la taille" loading="lazy" />' +
+            '<span class="detail-lexique-caption-plain-strong">Le saisir au-dessus de la taille</span>' +
+            '<img class="detail-lexique-img" src="images/parade-4.png" alt="Parade : rééquilibrer le grimpeur" loading="lazy" />' +
+            '<span class="detail-lexique-caption-plain-strong">Le rééquilibrer et amortir sa chute sans chercher à le bloquer…</span>',
+          hideVideos: true
+        };
+
+        DETAIL_OVERRIDES["lexique|Baudrier"] = {
+          introHtml:
+            '<div class="detail-lexique-baudrier-layout">' +
+            '<img class="detail-lexique-baudrier-img" src="images/baudrier.png" alt="Baudrier avec repères numérotés" loading="lazy" />' +
+            '<img class="detail-lexique-baudrier-img" src="images/baudrier-2.png" alt="Baudrier avec repères numérotés complémentaires" loading="lazy" />' +
+            '<span class="detail-lexique-caption-plain-strong">Légende :<br>1 : points d’attache<br>2 : pontet<br>3 : ceinture<br>4 : boucle(s) de serrage<br>5 : cuissards<br>6 : portes-matériel</span></div>' +
+            '<span class="detail-lexique-body">Harnais de sécurité qui permet le lien entre le grimpeur (ou assureur) et la corde.<br>Le baudrier, c\'est comme une \"ceinture de sécurité\" pour l\'escalade : il entoure la taille et les cuisses.<br>Sans baudrier bien réglé, on ne grimpe pas.</span>',
+          hideVideos: true
+        };
+
+        DETAIL_OVERRIDES["lexique|Clipper / Mousquetonner"] = {
+          introHtml:
+            '<span class="detail-lexique-body">Le mousquetonnage permet de clipper la corde dans la dégaine de manière rapide, propre et sécurisée pendant la progression.<br>Le but est d’éviter les erreurs d’orientation et de limiter les risques de chute.</span><br><br>' +
+            '<strong class="detail-lexique-body" style="display:block;text-align:center;font-size:clamp(1.2rem,2.8vw,1.5rem);line-height:1.2;">Différentes façons de mousquetonner</strong><br>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-1.png" alt="Mousquetonner avec le pouce" loading="lazy" />' +
+            '<span class="detail-lexique-caption">Avec le pouce, le reste de la main immobilisant le mousqueton</span>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-2.png" alt="Mousquetonner avec l’index et le majeur" loading="lazy" />' +
+            '<span class="detail-lexique-caption">La corde entre l’index et le majeur</span>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-3.png" alt="Mousquetonner avec pouce index majeur" loading="lazy" />' +
+            '<span class="detail-lexique-caption">Avec le pouce, index et majeur immobilisant le haut du mousqueton</span>' +
+            '<br><span class="detail-note-strong detail-safety">⚠️ RÈGLES DE SÉCURITÉ :</span><br>' +
+            '<span class="detail-lexique-caption-strong">Placer le mousqueton droit sur l’amarrage</span>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-4.png" alt="Orientation du mousqueton et cheminement de la voie" loading="lazy" />' +
+            '<span class="detail-lexique-caption-strong">Placer le côté du mousqueton sans le doigt d’ouverture du côté où le cheminement de la voie vous conduit<br>Placer le brin qui va au baudrier vers l’extérieur</span>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-5.png" alt="Brin du baudrier pour éviter le yoyo" loading="lazy" />' +
+            '<span class="detail-lexique-caption-strong">Placer le brin venant du baudrier pour ne pas faire de Yoyo</span>' +
+            '<img class="detail-lexique-img" src="images/mousquetonner-6.png" alt="Position sûre pour mousquetonner" loading="lazy" />' +
+            '<span class="detail-lexique-caption-strong">Chercher une position pour mousquetonner plutôt avec l’amarrage sous les yeux qu’à bout de bras (risque de retour au sol en cas de chute en début de voie !)</span>',
+          hideVideos: true
+        };
+      })();
+
+      var SECTION_LABELS = {
+        apprentissage: "Apprentissage",
+        lexique: "Lexique",
+        as: "AS"
+      };
+
+      var mainMenu = document.getElementById("mainMenu");
+      var screenApprentissage = document.getElementById("screenApprentissage");
+      var screenLexique = document.getElementById("screenLexique");
+      var screenAs = document.getElementById("screenAs");
+      var listApprentissage = document.getElementById("listApprentissage");
+      var listLexique = document.getElementById("listLexique");
+      var listAs = document.getElementById("listAs");
+      var detailMenu = document.getElementById("detailMenu");
+      var detailToolbar = document.getElementById("detailToolbar");
+      var detailBackBtn = document.getElementById("detailBackBtn");
+      var detailTitle = document.getElementById("detailTitle");
+      var detailIntro = document.getElementById("detailIntro");
+      var detailSubTitle = document.getElementById("detailSubTitle");
+      var detailVideo1 = document.getElementById("detailVideo1");
+      var detailVideo2 = document.getElementById("detailVideo2");
+      var detailVideoPlaceholder1 = document.getElementById("detailVideoPlaceholder1");
+      var detailVideoPlaceholder2 = document.getElementById("detailVideoPlaceholder2");
+      var detailVideoBlock1 = document.getElementById("detailVideoBlock1");
+      var detailVideoBlock2 = document.getElementById("detailVideoBlock2");
+
+      var lastListSection = "apprentissage";
+
+      var allScreens = [
+        mainMenu,
+        screenApprentissage,
+        screenLexique,
+        screenAs,
+        detailMenu
+      ];
+
+      function showOnly(el) {
+        allScreens.forEach(function (s) {
+          s.classList.toggle("active", s === el);
+        });
+      }
+
+      function renderTextList(container, items, sectionId) {
+        container.innerHTML = "";
+        var isLexique = sectionId === "lexique";
+        container.classList.toggle("section-list--grid", isLexique);
+        items.forEach(function (label) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "text-list-btn";
+          btn.dataset.label = label;
+          if (isLexique) {
+            btn.classList.add("text-list-btn--card");
+            var media = document.createElement("span");
+            media.className = "text-list-media";
+            var src = (LIST_VISUALS[sectionId] || {})[label];
+            if (src) {
+              var img = document.createElement("img");
+              img.className = "text-list-thumb";
+              img.src = src;
+              img.alt = "";
+              img.loading = "lazy";
+              media.appendChild(img);
+            } else {
+              var emoji = document.createElement("span");
+              emoji.className = "text-list-emoji";
+              emoji.textContent = fallbackEmoji(sectionId);
+              media.appendChild(emoji);
+            }
+
+            var text = document.createElement("span");
+            text.className = "text-list-label";
+            text.textContent = label;
+            btn.appendChild(media);
+            btn.appendChild(text);
+          } else {
+            btn.textContent = label;
+          }
+          container.appendChild(btn);
+        });
+      }
+
+      function applyVideoSlot(videoEl, placeholderEl, src, fallbackLabel) {
+        if (src) {
+          videoEl.setAttribute("src", src);
+          videoEl.load();
+          videoEl.onloadeddata = function () {
+            placeholderEl.classList.add("is-hidden");
+          };
+          videoEl.onerror = function () {
+            placeholderEl.textContent =
+              "Lecture impossible sur cet appareil (format ou fichier non disponible).";
+            placeholderEl.classList.remove("is-hidden");
+          };
+          videoEl.classList.remove("is-hidden");
+          placeholderEl.textContent = fallbackLabel || "Vidéo à venir";
+        } else {
+          try {
+            videoEl.pause();
+          } catch (e) {}
+          videoEl.removeAttribute("src");
+          videoEl.load();
+          videoEl.classList.add("is-hidden");
+          placeholderEl.textContent = fallbackLabel || "Vidéo à venir";
+          placeholderEl.classList.remove("is-hidden");
+        }
+      }
+
+      function detailStorageKey(sectionId, title) {
+        return sectionId + "|" + title;
+      }
+
+      function getDetailPayload(sectionId, title) {
+        var key = detailStorageKey(sectionId, title);
+        var o = DETAIL_OVERRIDES[key] || {};
+        return {
+          intro: typeof o.intro === "string" ? o.intro : "",
+          introHtml: typeof o.introHtml === "string" ? o.introHtml : "",
+          subTitle: o.subTitle !== undefined && o.subTitle !== null ? o.subTitle : "",
+          video1: o.video1 || "",
+          video2: o.video2 || "",
+          video1Label: o.video1Label || "Vidéo principale",
+          video2Label: o.video2Label || "Vidéo complémentaire",
+          hideVideos: o.hideVideos !== undefined ? !!o.hideVideos : true
+        };
+      }
+
+      function openDetail(sectionId, title) {
+        var p = getDetailPayload(sectionId, title);
+        lastListSection = sectionId;
+
+        detailToolbar.dataset.tint = sectionId;
+        detailMenu.dataset.section = sectionId;
+        detailTitle.textContent = title;
+
+        if ((p.intro || "").trim() === "" && (p.introHtml || "").trim() === "") {
+          detailIntro.classList.add("is-hidden");
+          detailIntro.textContent = "";
+        } else {
+          detailIntro.classList.remove("is-hidden");
+          if ((p.introHtml || "").trim() !== "") {
+            detailIntro.innerHTML = p.introHtml;
+          } else {
+            detailIntro.textContent = p.intro;
+          }
+        }
+
+        if (p.hideVideos) {
+          detailSubTitle.classList.add("is-hidden");
+          detailVideoBlock1.classList.add("is-hidden");
+          detailVideoBlock2.classList.add("is-hidden");
+        } else {
+          detailSubTitle.classList.remove("is-hidden");
+          detailVideoBlock1.classList.remove("is-hidden");
+          detailVideoBlock2.classList.remove("is-hidden");
+          detailSubTitle.textContent = p.subTitle;
+          applyVideoSlot(detailVideo1, detailVideoPlaceholder1, p.video1, p.video1Label);
+          applyVideoSlot(detailVideo2, detailVideoPlaceholder2, p.video2, p.video2Label);
+        }
+
+        if (sectionId === "as" && title === "Calendrier") {
+          initAsCalendar();
+        }
+
+        showOnly(detailMenu);
+      }
+
+      function closeDetailToList() {
+        if (lastListSection === "apprentissage") {
+          showOnly(screenApprentissage);
+        } else if (lastListSection === "lexique") {
+          showOnly(screenLexique);
+        } else if (lastListSection === "as") {
+          showOnly(screenAs);
+        } else {
+          showOnly(screenApprentissage);
+        }
+      }
+
+      function bindListToDetail(listEl, sectionId) {
+        listEl.addEventListener("click", function (e) {
+          var btn = e.target.closest(".text-list-btn");
+          if (!btn) return;
+          openDetail(sectionId, (btn.dataset.label || btn.textContent || "").trim());
+        });
+      }
+
+      bindListToDetail(listApprentissage, "apprentissage");
+      bindListToDetail(listLexique, "lexique");
+      bindListToDetail(listAs, "as");
+
+      detailBackBtn.addEventListener("click", function () {
+        closeDetailToList();
+      });
+
+      document.querySelectorAll("#mainMenu .menu-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var section = btn.getAttribute("data-section");
+          var items = ITEMS_BY_SECTION[section] || [];
+          if (section === "apprentissage") {
+            renderTextList(listApprentissage, items, "apprentissage");
+            showOnly(screenApprentissage);
+          } else if (section === "lexique") {
+            renderTextList(listLexique, items, "lexique");
+            showOnly(screenLexique);
+          } else if (section === "as") {
+            renderTextList(listAs, items, "as");
+            showOnly(screenAs);
+          }
+        });
+      });
+
+      document.querySelectorAll(".back-btn[data-back-to=\"main\"]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          showOnly(mainMenu);
+        });
+      });
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("./sw.js").catch(function () {});
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
