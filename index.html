@@ -1476,15 +1476,27 @@
           saveRegistrationForDate(dateKey, payload);
 
           if (AS_CALENDAR_SETTINGS.registrationWebhook) {
+            // Envoi "simple request" (form-urlencoded + no-cors) pour éviter les blocages CORS
+            var params = new URLSearchParams();
+            params.set("date", payload.date || "");
+            params.set("type", payload.type || "");
+            params.set("horaires", payload.horaires || "");
+            params.set("lieu", payload.lieu || "");
+            params.set("firstName", payload.firstName || "");
+            params.set("classe", payload.classe || "");
+            params.set("shoeSize", payload.shoeSize || "");
+            params.set("hasNavigo", payload.hasNavigo || "");
+            params.set("createdAt", payload.createdAt || "");
+
             fetch(AS_CALENDAR_SETTINGS.registrationWebhook, {
               method: "POST",
+              mode: "no-cors",
               headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
               },
-              body: JSON.stringify(payload)
-            }).then(function (res) {
-              if (!res.ok) throw new Error("webhook http " + res.status);
-              note.textContent = "Inscription enregistrée et envoyée au tableau Google Sheets.";
+              body: params.toString()
+            }).then(function () {
+              note.textContent = "Inscription enregistrée. Envoi vers Google Sheets déclenché.";
               form.reset();
             }).catch(function () {
               note.textContent = "Inscription enregistrée localement, mais envoi Google Sheets impossible (connexion / webhook).";
