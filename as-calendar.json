@@ -1,4 +1,8 @@
 {
+  "_settings": {
+    "registrationEmail": "adrien.lafay@ac-creteil.fr",
+    "registrationWebhook": "https://script.google.com/macros/s/AKfycbyJxjYXnAryW7mNGeYIv3n5yOvO7bhOxB6MXuHN8gOTRb-7zrowSZMNxvnB-ZO_3z0/exec"
+  },
   "2026-04-22": {
     "type": "Vacances"
   },
@@ -9,8 +13,8 @@
     "type": "Entraînement"
   },
   "2026-05-13": {
-    "type": "AS annulé",
-    "infos": "Pas d'entraînement AS annulé"
+    "type": "créneau AS annulé",
+    "infos": "Pas d'entraînement créneau AS annulé"
   },
   "2026-05-20": {
     "type": "Sortie",
@@ -22,15 +26,19 @@
     "type": "Entraînement"
   },
   "2026-06-03": {
-    "type": "AS annulé",
-    "infos": "Pas d'entraînement AS annulé"
+    "type": "créneau AS annulé",
+    "infos": "Pas d'entraînement créneau AS annulé"
   },
   "2026-06-10": {
     "type": "Entraînement + goûter",
-    "infos": "Prévoir de quoi faire un goûter pour clôturer l'année scolaire !"
+    "infos": "Dernier entraînement de l'année ! Merci de prévoir de quoi faire un beau goûter pour clôturer cette magnifique année scolaire 😉!"
   },
   "2026-06-17": {
-    "type": "AS annulée",
-    "infos": "Pas d'entraînement AS annulé"
+    "type": "créneau AS annulé",
+    "infos": "Dolto Show, pas d'entraînement, créneau AS annulé"
+  },
+  "2026-06-24": {
+    "type": "créneau AS annulé",
+    "infos": "Pas d'entraînement créneau AS annulé"
   }
 }
