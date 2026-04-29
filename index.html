@@ -305,6 +305,13 @@
       overflow: hidden;
     }
 
+    .as-list-emoji {
+      font-size: 2.25rem;
+      line-height: 1;
+      margin-right: 12px;
+      flex: 0 0 auto;
+    }
+
     .text-list-media {
       width: 100%;
       height: 62px;
@@ -587,11 +594,12 @@
 
     .as-calendar-emoji {
       position: absolute;
-      top: 1px;
-      right: 4px;
-      font-size: 1.15rem;
+      top: 0;
+      right: 2px;
+      font-size: 1.4rem;
       line-height: 1;
       pointer-events: none;
+      filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.65));
     }
 
     .as-calendar-cell.is-training:hover {
@@ -615,8 +623,14 @@
     .as-calendar-cell.is-cancelled::before {
       content: "";
       position: absolute;
-      inset: 2px;
-      background: linear-gradient(45deg, transparent 48%, #dc2626 48%, #dc2626 52%, transparent 52%);
+      inset: 0;
+      background: linear-gradient(
+        to bottom left,
+        transparent calc(50% - 1px),
+        rgba(220, 38, 38, 0.62) calc(50% - 1px),
+        rgba(220, 38, 38, 0.62) calc(50% + 1px),
+        transparent calc(50% + 1px)
+      );
       pointer-events: none;
     }
 
@@ -634,8 +648,14 @@
     .as-calendar-cell.is-vacation::before {
       content: "";
       position: absolute;
-      inset: 2px;
-      background: linear-gradient(45deg, transparent 48%, #0284c7 48%, #0284c7 52%, transparent 52%);
+      inset: 0;
+      background: linear-gradient(
+        to bottom left,
+        transparent calc(50% - 1px),
+        rgba(2, 132, 199, 0.58) calc(50% - 1px),
+        rgba(2, 132, 199, 0.58) calc(50% + 1px),
+        transparent calc(50% + 1px)
+      );
       pointer-events: none;
     }
 
@@ -662,6 +682,11 @@
       font-weight: 700;
     }
 
+    .as-calendar-detail strong {
+      color: #b45309;
+      font-size: 1.03rem;
+    }
+
     .as-calendar-extra {
       display: inline-block;
       margin-top: 4px;
@@ -671,6 +696,110 @@
       border: 1px solid #fdba74;
       color: #9a3412;
       font-weight: 800;
+    }
+
+    .as-register-wrap {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #cbd5e1;
+    }
+
+    .as-register-btn {
+      border: 1px solid #16a34a;
+      background: #dcfce7;
+      color: #166534;
+      border-radius: 10px;
+      padding: 11px 20px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .as-register-form {
+      margin-top: 10px;
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 920px;
+    }
+
+    .as-register-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 0.9rem;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    .as-register-form input {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+      background: #fff;
+      width: 100%;
+    }
+
+    .as-register-form label.as-register-wide-label {
+      grid-column: 1 / -1;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .as-register-form label.as-register-wide-label select {
+      width: 88px !important;
+      min-width: 88px !important;
+      flex: 0 0 88px !important;
+      padding: 5px 8px;
+      font-size: 0.88rem;
+    }
+
+    .as-register-form select {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.95rem;
+      background: #fff;
+      width: 100%;
+    }
+
+    .as-register-submit {
+      grid-column: 1 / -1;
+      justify-self: center;
+      border: 1px solid #16a34a;
+      background: #dcfce7;
+      color: #166534;
+      border-radius: 10px;
+      padding: 11px 20px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .as-register-form {
+        grid-template-columns: 1fr;
+      }
+      .as-register-form label.as-register-wide-label {
+        white-space: normal;
+        display: grid;
+      }
+      .as-register-form label.as-register-wide-label select {
+        width: 100%;
+        min-width: 0;
+        flex: initial;
+      }
+    }
+
+    .as-register-note {
+      font-size: 0.82rem;
+      color: #475569;
+      margin: 0;
     }
 
     #detailMenu[data-section="lexique"] .detail-intro {
@@ -727,6 +856,20 @@
       font-weight: 700;
       text-decoration: none;
       border: 1px solid #bae6fd;
+    }
+
+    .detail-resource-link-inline {
+      display: inline-block;
+      margin: 0 0 0 8px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: #e0f2fe;
+      color: #0c4a6e;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid #bae6fd;
+      font-size: 0.85rem;
+      vertical-align: middle;
     }
 
     .detail-note-strong {
@@ -980,7 +1123,8 @@
         as: [
           "Informations",
           "Inscription",
-          "Calendrier"
+          "Calendrier",
+          "Vidéo Mathieu"
         ]
       };
 
@@ -1161,9 +1305,16 @@
           "</div>" +
           '<div class="as-calendar-grid" id="asCalendarGrid"></div>' +
           '<p class="as-calendar-note">Les mercredis d’AS sont surlignés en orange. Clique sur un mercredi pour afficher le détail.</p>' +
-          '<p class="as-calendar-note"><strong>Légende emojis :</strong> <span class="as-calendar-legend-item">🧗‍♂️ Entraînement</span> | <span class="as-calendar-legend-item">🍪 Goûter</span> | <span class="as-calendar-legend-item">🏆 Compétition</span> | <span class="as-calendar-legend-item">🎒 Sortie</span> | <span class="as-calendar-legend-item">📝 Formation</span> | <span class="as-calendar-legend-item">❗️❌ AS annulé(e)</span> | <span class="as-calendar-legend-item">🏖️😎 Vacances</span></p>' +
+          '<p class="as-calendar-note"><strong>Légende emojis :</strong> <span class="as-calendar-legend-item">🧗‍♂️ Entraînement</span> | <span class="as-calendar-legend-item">🍪 Goûter</span> | <span class="as-calendar-legend-item">🏆 Compétition</span> | <span class="as-calendar-legend-item">🎒 Sortie</span> | <span class="as-calendar-legend-item">📝 Formation</span> | <span class="as-calendar-legend-item">❗️❌ créneau AS annulé</span> | <span class="as-calendar-legend-item">🏖️😎 Vacances</span></p>' +
           '<div class="as-calendar-detail" id="asCalendarDetail">Sélectionne un mercredi pour afficher le type d’entraînement, l’horaire, les sorties et les autorisations.</div>' +
           "</div>",
+        hideVideos: true
+      };
+      DETAIL_OVERRIDES["as|Vidéo Mathieu"] = {
+        introHtml:
+          "<strong>Vidéo Mathieu</strong><br><br>" +
+          '<video class="detail-video" controls playsinline preload="metadata" src="video-mathieu-hd.MOV"></video><br>' +
+          '<a class="detail-resource-link" href="video-mathieu-hd.MOV" download>Télécharger la vidéo HD (IMG_0192)</a>',
         hideVideos: true
       };
 
@@ -1178,8 +1329,8 @@
           type: "Entraînement"
         },
         "2026-05-13": {
-          type: "AS annulé",
-          infos: "Pas d'entraînement AS annulé"
+          type: "créneau AS annulé",
+          infos: "Pas d'entraînement créneau AS annulé"
         },
         "2026-05-20": {
           type: "Sortie",
@@ -1191,26 +1342,43 @@
           type: "Entraînement"
         },
         "2026-06-03": {
-          type: "AS annulé",
-          infos: "Pas d'entraînement AS annulé"
+          type: "créneau AS annulé",
+          infos: "Pas d'entraînement créneau AS annulé"
         },
         "2026-06-10": {
           type: "Entraînement + goûter",
           infos: "Prévoir de quoi faire un goûter pour clôturer l'année scolaire !"
         },
         "2026-06-17": {
-          type: "AS annulée",
-          infos: "Pas d'entraînement AS annulé"
+          type: "créneau AS annulé",
+          infos: "Pas d'entraînement créneau AS annulé"
         }
       };
 
       var AS_CALENDAR_EVENTS = JSON.parse(JSON.stringify(AS_CALENDAR_EVENTS_DEFAULT));
+      var AS_CALENDAR_SETTINGS = {
+        registrationEmail: "",
+        registrationWebhook: ""
+      };
       var asCalendarState = { year: 0, month: 0, selectedDate: "", eventsLoaded: false, loadingPromise: null };
+      var AS_CALENDAR_END_DATE = "2026-06-30";
 
       function formatYmd(y, m, d) {
         var mm = String(m + 1).padStart(2, "0");
         var dd = String(d).padStart(2, "0");
         return y + "-" + mm + "-" + dd;
+      }
+
+      function formatLongDateFrFromKey(dateKey) {
+        var p = String(dateKey || "").split("-");
+        if (p.length !== 3) return dateKey;
+        var y = Number(p[0]);
+        var m = Number(p[1]) - 1;
+        var d = Number(p[2]);
+        var dt = new Date(y, m, d);
+        var weekdays = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+        var months = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+        return weekdays[dt.getDay()] + " " + d + " " + months[m] + " " + y;
       }
 
       function escapeHtml(s) {
@@ -1224,6 +1392,132 @@
       function mapsUrlFromLieu(lieu) {
         var q = encodeURIComponent(String(lieu || "").trim());
         return "https://www.google.com/maps/search/?api=1&query=" + q;
+      }
+
+      function canRegisterForType(type) {
+        var t = String(type || "").toLowerCase();
+        return t.indexOf("sortie") >= 0 || t.indexOf("compétition") >= 0 || t.indexOf("competition") >= 0;
+      }
+
+      function registrationStorageKey(dateKey) {
+        return "as-registration:" + dateKey;
+      }
+
+      function normalizeRegistrationValue(v) {
+        return String(v || "").trim().toLowerCase();
+      }
+
+      function getRegistrationsForDate(dateKey) {
+        var raw = localStorage.getItem(registrationStorageKey(dateKey));
+        if (!raw) return [];
+        try {
+          var parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function hasDuplicateRegistration(dateKey, firstName, classe) {
+        var needleName = normalizeRegistrationValue(firstName);
+        var needleClasse = normalizeRegistrationValue(classe);
+        return getRegistrationsForDate(dateKey).some(function (r) {
+          return normalizeRegistrationValue(r.firstName || r.fullName) === needleName &&
+                 normalizeRegistrationValue(r.classe) === needleClasse;
+        });
+      }
+
+      function saveRegistrationForDate(dateKey, payload) {
+        var list = getRegistrationsForDate(dateKey);
+        list.push(payload);
+        localStorage.setItem(registrationStorageKey(dateKey), JSON.stringify(list));
+      }
+
+      function renderRegistrationForm(dateKey, eventData) {
+        var host = document.getElementById("asRegisterHost");
+        if (!host) return;
+        host.innerHTML =
+          '<div class="as-register-wrap">' +
+          '<form class="as-register-form" id="asRegisterForm">' +
+          '<label>Prénom<input name="firstName" required /></label>' +
+          '<label>Classe<input name="classe" required /></label>' +
+          '<label>Pointure des chaussons<input name="shoeSize" required /></label>' +
+          '<label class="as-register-wide-label">Je possède un Pass Navigo valide que je pourrai utiliser pour me déplacer le jour de la sortie' +
+          '<select name="hasNavigo" required><option value="" selected disabled hidden>Choisir</option><option value="Oui">Oui</option><option value="Non">Non</option></select></label>' +
+          '<button class="as-register-submit" type="submit">Valider l’inscription</button>' +
+          "</form>" +
+          '<p class="as-register-note" id="asRegisterNote">Les informations seront enregistrées et préparées pour envoi.</p>' +
+          "</div>";
+
+        var form = document.getElementById("asRegisterForm");
+        var note = document.getElementById("asRegisterNote");
+        if (!form || !note) return;
+
+        form.addEventListener("submit", function (ev) {
+          ev.preventDefault();
+          var firstName = form.firstName.value.trim();
+          var classe = form.classe.value.trim();
+          var shoeSize = form.shoeSize.value.trim();
+          var hasNavigo = form.hasNavigo.value;
+
+          if (!firstName || !classe || !shoeSize || !hasNavigo) {
+            note.textContent = "Merci de remplir tous les champs avant de valider l’inscription.";
+            return;
+          }
+
+          if (hasDuplicateRegistration(dateKey, firstName, classe)) {
+            note.textContent = "Inscription déjà enregistrée pour ce prénom dans cette classe à cette date.";
+            return;
+          }
+
+          var payload = {
+            date: dateKey,
+            type: eventData.type || "",
+            lieu: eventData.lieu || "",
+            horaires: eventData.horaires || "",
+            firstName: firstName,
+            classe: classe,
+            shoeSize: shoeSize,
+            hasNavigo: hasNavigo,
+            createdAt: new Date().toISOString()
+          };
+          saveRegistrationForDate(dateKey, payload);
+
+          if (AS_CALENDAR_SETTINGS.registrationWebhook) {
+            fetch(AS_CALENDAR_SETTINGS.registrationWebhook, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            }).then(function (res) {
+              if (!res.ok) throw new Error("webhook http " + res.status);
+              note.textContent = "Inscription enregistrée et envoyée au tableau Google Sheets.";
+              form.reset();
+            }).catch(function () {
+              note.textContent = "Inscription enregistrée localement, mais envoi Google Sheets impossible (connexion / webhook).";
+              form.reset();
+            });
+          } else if (AS_CALENDAR_SETTINGS.registrationEmail) {
+            var subject = encodeURIComponent("Inscription AS - " + dateKey);
+            var body = encodeURIComponent(
+              "Date : " + dateKey + "\\n" +
+              "Type : " + (payload.type || "—") + "\\n" +
+              "Horaires : " + (payload.horaires || "—") + "\\n" +
+              "Lieu : " + (payload.lieu || "—") + "\\n\\n" +
+              "Prénom : " + payload.firstName + "\\n" +
+              "Classe : " + payload.classe + "\\n" +
+              "Pointure des chaussons : " + payload.shoeSize + "\\n" +
+              "Pass Navigo valide : " + payload.hasNavigo
+            );
+            window.location.href = "mailto:" + encodeURIComponent(AS_CALENDAR_SETTINGS.registrationEmail) + "?subject=" + subject + "&body=" + body;
+            note.textContent = "Inscription enregistrée. Un email est prêt à être envoyé.";
+            form.reset();
+          } else {
+            note.textContent = "Inscription enregistrée sur cet appareil. Ajoute un webhook Google Sheets pour centraliser automatiquement.";
+            form.reset();
+          }
+        });
       }
 
       function getTypeEmoji(type) {
@@ -1281,6 +1575,10 @@
             asCalendarState.year = y;
             asCalendarState.selectedDate = "";
             renderAsCalendar();
+            var detailEl = document.getElementById("asCalendarDetail");
+            if (detailEl) {
+              detailEl.textContent = "Sélectionne un mercredi pour afficher le détail.";
+            }
           };
         });
 
@@ -1296,6 +1594,11 @@
             })
             .then(function (data) {
               if (data && typeof data === "object") {
+                if (data._settings && typeof data._settings === "object") {
+                  AS_CALENDAR_SETTINGS.registrationEmail = data._settings.registrationEmail || "";
+                    AS_CALENDAR_SETTINGS.registrationWebhook = data._settings.registrationWebhook || "";
+                  delete data._settings;
+                }
                 AS_CALENDAR_EVENTS = data;
               }
             })
@@ -1314,6 +1617,8 @@
         var gridEl = document.getElementById("asCalendarGrid");
         var detailEl = document.getElementById("asCalendarDetail");
         if (!monthEl || !gridEl || !detailEl) return;
+        var prevBtn = document.querySelector('[data-cal-nav="-1"]');
+        var nextBtn = document.querySelector('[data-cal-nav="1"]');
 
         var monthNames = [
           "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
@@ -1323,6 +1628,19 @@
         today.setHours(0, 0, 0, 0);
         var weekNames = ["Lun", "Mar", "Mer", "Jeu", "Ven"];
         monthEl.textContent = monthNames[asCalendarState.month] + " " + asCalendarState.year;
+
+        var endParts = AS_CALENDAR_END_DATE.split("-");
+        var endYear = Number(endParts[0]);
+        var endMonth = Number(endParts[1]) - 1;
+        var atOrAfterEndMonth =
+          asCalendarState.year > endYear ||
+          (asCalendarState.year === endYear && asCalendarState.month >= endMonth);
+        if (nextBtn) {
+          nextBtn.disabled = atOrAfterEndMonth;
+          nextBtn.style.visibility = atOrAfterEndMonth ? "hidden" : "visible";
+        }
+        if (prevBtn) prevBtn.disabled = false;
+
         gridEl.innerHTML = "";
         weekNames.forEach(function (w) {
           var cell = document.createElement("div");
@@ -1348,6 +1666,7 @@
           var dateKey = formatYmd(y, m, d);
           var dateAtMidnight = new Date(y, m, d);
           dateAtMidnight.setHours(0, 0, 0, 0);
+          var isAfterEndDate = dateKey > AS_CALENDAR_END_DATE;
           var isWednesday = weekday === 3;
           var hasEvent = !!AS_CALENDAR_EVENTS[dateKey];
           var inCurrentMonth = m === asCalendarState.month;
@@ -1360,7 +1679,7 @@
           var dayCell = document.createElement("button");
           dayCell.type = "button";
           dayCell.className = "as-calendar-cell";
-          if (!inCurrentMonth) dayCell.classList.add("is-out");
+          if (!inCurrentMonth || isAfterEndDate) dayCell.classList.add("is-out");
           if (isWednesday && inCurrentMonth) dayCell.classList.add("is-training");
           if (isCancelled && inCurrentMonth) dayCell.classList.add("is-cancelled");
           if (isVacation && inCurrentMonth) dayCell.classList.add("is-vacation");
@@ -1368,7 +1687,7 @@
           if (dateKey === asCalendarState.selectedDate) dayCell.classList.add("is-selected");
           dayCell.textContent = String(d);
 
-          if (isWednesday && inCurrentMonth) {
+          if (isWednesday && inCurrentMonth && !isAfterEndDate) {
             dayCell.onclick = (function (key) {
               return function () {
                 asCalendarState.selectedDate = key;
@@ -1381,25 +1700,38 @@
                 });
                 var t = String(e.type || "").toLowerCase();
                 var isVacation = t.indexOf("vacances") >= 0;
+                var isCancelled = t.indexOf("annulé") >= 0 || t.indexOf("annule") >= 0;
                 var infoHtml = e.infos
                   ? '<span class="as-calendar-extra">' + escapeHtml(e.infos) + "</span>"
-                  : "—";
-                var mapLinkHtml = !isVacation && e.lieu
-                  ? '<br><a class="detail-resource-link" href="' + mapsUrlFromLieu(e.lieu) + '" target="_blank" rel="noopener noreferrer">Voir sur Maps</a>'
                   : "";
+                var mapLinkHtml = (!isVacation && !isCancelled) && e.lieu
+                  ? '<a class="detail-resource-link-inline" href="' + mapsUrlFromLieu(e.lieu) + '" target="_blank" rel="noopener noreferrer">Voir sur Maps</a>'
+                  : "";
+                var infoLineHtml = infoHtml ? ("Informations complémentaires : " + infoHtml) : "";
+                var typeLineHtml = e.type ? (escapeHtml(e.type) + "<br>") : "";
+                var lieuLineHtml = ((!isVacation && !isCancelled) && e.lieu) ? (escapeHtml(e.lieu) + mapLinkHtml + "<br>") : "";
                 detailEl.innerHTML =
-                  "<strong>" + key.split("-").reverse().join("/") + "</strong><br>" +
-                  "Type : " + escapeHtml(e.type || "—") + "<br>" +
-                  (isVacation ? "" : ("Horaires : " + escapeHtml(e.horaires || "—") + "<br>")) +
-                  (isVacation ? "" : ("Lieu : " + escapeHtml(e.lieu || "—") + mapLinkHtml + "<br>")) +
-                  "Informations complémentaires : " + infoHtml;
+                  "<strong>" + escapeHtml(formatLongDateFrFromKey(key)) + ((isVacation || isCancelled) ? "" : (" — Horaire : " + escapeHtml(e.horaires || "—"))) + "</strong><br>" +
+                  typeLineHtml +
+                  lieuLineHtml +
+                  infoLineHtml +
+                  (canRegisterForType(e.type) ? '<div id="asRegisterHost"><div class="as-register-wrap"><button class="as-register-btn" type="button" id="asRegisterToggle">S’inscrire</button></div></div>' : "");
+
+                if (canRegisterForType(e.type)) {
+                  var toggle = document.getElementById("asRegisterToggle");
+                  if (toggle) {
+                    toggle.addEventListener("click", function () {
+                      renderRegistrationForm(key, e);
+                    });
+                  }
+                }
               };
             })(dateKey);
           } else {
             dayCell.disabled = true;
           }
 
-          if (isWednesday && inCurrentMonth) {
+          if (isWednesday && inCurrentMonth && !isAfterEndDate) {
             var eventData = enrichAsEvent(eventDataRaw);
             var em = getTypeEmoji(eventData && eventData.type);
             if (em) {
@@ -1664,6 +1996,7 @@
       function renderTextList(container, items, sectionId) {
         container.innerHTML = "";
         var isLexique = sectionId === "lexique";
+        var isAs = sectionId === "as";
         container.classList.toggle("section-list--grid", isLexique);
         items.forEach(function (label) {
           var btn = document.createElement("button");
@@ -1695,7 +2028,23 @@
             btn.appendChild(media);
             btn.appendChild(text);
           } else {
-            btn.textContent = label;
+            if (isAs) {
+              var asEmojiMap = {
+                Informations: "ℹ️",
+                Inscription: "✍🏻",
+                Calendrier: "📆",
+                "Vidéo Mathieu": "🎬"
+              };
+              var emoji = document.createElement("span");
+              emoji.className = "as-list-emoji";
+              emoji.textContent = asEmojiMap[label] || "✅";
+              var txt = document.createElement("span");
+              txt.textContent = label;
+              btn.appendChild(emoji);
+              btn.appendChild(txt);
+            } else {
+              btn.textContent = label;
+            }
           }
           container.appendChild(btn);
         });
