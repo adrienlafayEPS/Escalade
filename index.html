@@ -1123,8 +1123,7 @@
         as: [
           "Informations",
           "Inscription",
-          "Calendrier",
-          "Vidéo Mathieu"
+          "Calendrier"
         ]
       };
 
@@ -1308,13 +1307,6 @@
           '<p class="as-calendar-note"><strong>Légende emojis :</strong> <span class="as-calendar-legend-item">🧗‍♂️ Entraînement</span> | <span class="as-calendar-legend-item">🍪 Goûter</span> | <span class="as-calendar-legend-item">🏆 Compétition</span> | <span class="as-calendar-legend-item">🎒 Sortie</span> | <span class="as-calendar-legend-item">📝 Formation</span> | <span class="as-calendar-legend-item">❗️❌ créneau AS annulé</span> | <span class="as-calendar-legend-item">🏖️😎 Vacances</span></p>' +
           '<div class="as-calendar-detail" id="asCalendarDetail">Sélectionne un mercredi pour afficher le type d’entraînement, l’horaire, les sorties et les autorisations.</div>' +
           "</div>",
-        hideVideos: true
-      };
-      DETAIL_OVERRIDES["as|Vidéo Mathieu"] = {
-        introHtml:
-          "<strong>Vidéo Mathieu</strong><br><br>" +
-          '<video class="detail-video" controls playsinline preload="metadata" src="video-mathieu-hd.MOV"></video><br>' +
-          '<a class="detail-resource-link" href="video-mathieu-hd.MOV" download>Télécharger la vidéo HD (IMG_0192)</a>',
         hideVideos: true
       };
 
@@ -2032,8 +2024,7 @@
               var asEmojiMap = {
                 Informations: "ℹ️",
                 Inscription: "✍🏻",
-                Calendrier: "📆",
-                "Vidéo Mathieu": "🎬"
+                Calendrier: "📆"
               };
               var emoji = document.createElement("span");
               emoji.className = "as-list-emoji";
