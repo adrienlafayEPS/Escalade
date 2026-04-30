@@ -522,6 +522,7 @@
     .as-calendar {
       display: grid;
       gap: 10px;
+      min-width: 0;
     }
 
     .as-calendar-nav {
@@ -536,7 +537,7 @@
       font-weight: 800;
       color: #0f172a;
       font-size: clamp(1rem, 2.2vw, 1.2rem);
-      min-width: 200px;
+      min-width: 0;
       text-align: center;
     }
 
@@ -554,6 +555,7 @@
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 6px;
+      width: 100%;
     }
 
     .as-calendar-cell {
@@ -664,11 +666,12 @@
       color: #475569;
       text-align: center;
       margin: 0;
+      overflow-wrap: anywhere;
     }
 
     .as-calendar-legend-item {
       display: inline-block;
-      white-space: nowrap;
+      white-space: normal;
       margin: 0 4px;
     }
 
@@ -680,6 +683,7 @@
       color: #0f172a;
       line-height: 1.45;
       font-weight: 700;
+      overflow-wrap: anywhere;
     }
 
     .as-calendar-detail strong {
@@ -702,6 +706,8 @@
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px dashed #cbd5e1;
+      min-width: 0;
+      width: 100%;
     }
 
     .as-register-btn {
@@ -720,41 +726,52 @@
     .as-register-form {
       margin-top: 10px;
       display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      max-width: 920px;
+      gap: 6px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      max-width: 100%;
+      width: 100%;
+      min-width: 0;
+      overflow: visible;
     }
 
     .as-register-form label {
       display: grid;
-      gap: 4px;
-      font-size: 0.9rem;
+      gap: 2px;
+      font-size: 0.76rem;
       color: #334155;
       font-weight: 700;
+      min-width: 0;
+      width: 100%;
     }
 
     .as-register-form input {
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 0.95rem;
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 0.8rem;
       background: #fff;
       width: 100%;
+      min-width: 0;
     }
 
     .as-register-form label.as-register-wide-label {
       grid-column: 1 / -1;
-      white-space: nowrap;
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      justify-content: flex-start;
       gap: 8px;
+      min-width: 0;
+    }
+
+    .as-register-wide-text {
+      min-width: 0;
+      overflow-wrap: anywhere;
     }
 
     .as-register-form label.as-register-wide-label select {
       width: 88px !important;
       min-width: 88px !important;
-      flex: 0 0 88px !important;
+      justify-self: start;
       padding: 5px 8px;
       font-size: 0.88rem;
     }
@@ -766,6 +783,13 @@
       font-size: 0.95rem;
       background: #fff;
       width: 100%;
+    }
+
+    .as-register-form input.is-invalid,
+    .as-register-form select.is-invalid {
+      border-color: #dc2626 !important;
+      background: #fef2f2;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.14);
     }
 
     .as-register-submit {
@@ -781,18 +805,77 @@
       cursor: pointer;
     }
 
+    .as-register-submit.is-confirmed {
+      border-color: #2563eb;
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .as-register-reset {
+      grid-column: 1 / -1;
+      justify-self: center;
+      border: 1px solid #dc2626;
+      background: #fee2e2;
+      color: #991b1b;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     @media (max-width: 760px) {
+      .as-calendar-grid {
+        gap: 4px;
+      }
+      .as-calendar-cell {
+        min-height: 40px;
+        padding: 2px;
+        font-size: 0.78rem;
+      }
+      .as-calendar-cell.is-weekday {
+        min-height: 24px;
+        font-size: 0.68rem;
+      }
+      .as-calendar-emoji {
+        font-size: 1.15rem;
+        right: 1px;
+      }
+      .as-calendar-month {
+        min-width: 0;
+        font-size: 1rem;
+      }
       .as-register-form {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 5px;
+      }
+      .as-register-form label {
+        font-size: 0.7rem;
+      }
+      .as-register-form input {
+        padding: 3px 5px;
+        font-size: 0.74rem;
       }
       .as-register-form label.as-register-wide-label {
-        white-space: normal;
-        display: grid;
+        grid-template-columns: 1fr;
       }
       .as-register-form label.as-register-wide-label select {
-        width: 100%;
-        min-width: 0;
-        flex: initial;
+        width: 92px !important;
+        min-width: 92px !important;
+      }
+      .as-calendar-note {
+        font-size: 0.8rem;
+      }
+      .as-calendar-legend-item {
+        margin: 0 2px;
+      }
+      .detail-resource-link-inline {
+        margin-left: 4px;
+        padding: 4px 6px;
+        font-size: 0.8rem;
+      }
+      .as-inscrits-table {
+        font-size: 0.82rem;
       }
     }
 
@@ -800,6 +883,43 @@
       font-size: 0.82rem;
       color: #475569;
       margin: 0;
+    }
+
+    .as-inscrits-table-wrap {
+      overflow-x: auto;
+      margin-top: 8px;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    .as-inscrits-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 0;
+      table-layout: fixed;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .as-inscrits-table th,
+    .as-inscrits-table td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 6px 6px;
+      text-align: left;
+      color: #0f172a;
+      font-size: 0.8rem;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .as-inscrits-table th {
+      background: #f8fafc;
+      font-weight: 800;
+      color: #334155;
+      position: sticky;
+      top: 0;
     }
 
     #detailMenu[data-section="lexique"] .detail-intro {
@@ -859,7 +979,7 @@
     }
 
     .detail-resource-link-inline {
-      display: inline-block;
+      display: inline-flex;
       margin: 0 0 0 8px;
       padding: 4px 8px;
       border-radius: 8px;
@@ -870,6 +990,8 @@
       border: 1px solid #bae6fd;
       font-size: 0.85rem;
       vertical-align: middle;
+      white-space: normal;
+      max-width: 100%;
     }
 
     .detail-note-strong {
@@ -955,6 +1077,7 @@
     #detailMenu .detail-card {
       min-height: 0;
       overflow-y: auto;
+      overflow-x: hidden;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -1348,10 +1471,6 @@
       };
 
       var AS_CALENDAR_EVENTS = JSON.parse(JSON.stringify(AS_CALENDAR_EVENTS_DEFAULT));
-      var AS_CALENDAR_SETTINGS = {
-        registrationEmail: "",
-        registrationWebhook: ""
-      };
       var asCalendarState = { year: 0, month: 0, selectedDate: "", eventsLoaded: false, loadingPromise: null };
       var AS_CALENDAR_END_DATE = "2026-06-30";
 
@@ -1395,6 +1514,28 @@
         return "as-registration:" + dateKey;
       }
 
+      function clearAllRegistrations() {
+        Object.keys(localStorage).forEach(function (k) {
+          if (k.indexOf("as-registration:") === 0) localStorage.removeItem(k);
+        });
+      }
+
+      function isAdminMode() {
+        try {
+          var qs = new URLSearchParams(window.location.search || "");
+          return qs.get("admin") === "1";
+        } catch (e) {
+          return false;
+        }
+      }
+
+      (function resetRegistrationsOnceOnThisUpdate() {
+        var resetFlagKey = "as-registration-reset-2026-04-30";
+        if (localStorage.getItem(resetFlagKey)) return;
+        clearAllRegistrations();
+        localStorage.setItem(resetFlagKey, "done");
+      })();
+
       function normalizeRegistrationValue(v) {
         return String(v || "").trim().toLowerCase();
       }
@@ -1425,6 +1566,35 @@
         localStorage.setItem(registrationStorageKey(dateKey), JSON.stringify(list));
       }
 
+      function renderRegistrationsForDate(dateKey) {
+        var host = document.getElementById("asRegisterListHost");
+        if (!host) return;
+        var list = getRegistrationsForDate(dateKey);
+        if (!list.length) {
+          host.innerHTML = '<p class="as-register-note">Aucun inscrit pour le moment.</p>';
+          return;
+        }
+        var html = '<div class="as-inscrits-table-wrap"><table class="as-inscrits-table"><thead><tr>' +
+          "<th>Date / heure d'inscription</th>" +
+          "<th>Prénom</th>" +
+          "<th>Classe</th>" +
+          "<th>Pointure</th>" +
+          "<th>Pass Navigo</th>" +
+          "</tr></thead><tbody>";
+        list.slice().reverse().forEach(function (r) {
+          var created = r.createdAt ? new Date(r.createdAt).toLocaleString("fr-FR") : "—";
+          html += "<tr>" +
+            "<td>" + escapeHtml(created) + "</td>" +
+            "<td>" + escapeHtml(r.firstName || r.fullName || "") + "</td>" +
+            "<td>" + escapeHtml(r.classe || "") + "</td>" +
+            "<td>" + escapeHtml(r.shoeSize || "") + "</td>" +
+            "<td>" + escapeHtml(r.hasNavigo || "") + "</td>" +
+            "</tr>";
+        });
+        html += "</tbody></table></div>";
+        host.innerHTML = html;
+      }
+
       function renderRegistrationForm(dateKey, eventData) {
         var host = document.getElementById("asRegisterHost");
         if (!host) return;
@@ -1434,26 +1604,56 @@
           '<label>Prénom<input name="firstName" required /></label>' +
           '<label>Classe<input name="classe" required /></label>' +
           '<label>Pointure des chaussons<input name="shoeSize" required /></label>' +
-          '<label class="as-register-wide-label">Je possède un Pass Navigo valide que je pourrai utiliser pour me déplacer le jour de la sortie' +
+          '<label class="as-register-wide-label"><span class="as-register-wide-text">Je possède un Pass Navigo valide que je pourrai utiliser pour me déplacer le jour de la sortie</span>' +
           '<select name="hasNavigo" required><option value="" selected disabled hidden>Choisir</option><option value="Oui">Oui</option><option value="Non">Non</option></select></label>' +
           '<button class="as-register-submit" type="submit">Valider l’inscription</button>' +
+          (isAdminMode()
+            ? '<button class="as-register-reset" type="button" id="asResetRegistrationsBtn">Réinitialiser toutes les inscriptions</button>'
+            : "") +
           "</form>" +
           '<p class="as-register-note" id="asRegisterNote">Les informations seront enregistrées et préparées pour envoi.</p>' +
+          '<div id="asRegisterListHost" class="as-inscrits-table-wrap"></div>' +
           "</div>";
 
         var form = document.getElementById("asRegisterForm");
         var note = document.getElementById("asRegisterNote");
+        var resetBtn = document.getElementById("asResetRegistrationsBtn");
         if (!form || !note) return;
+
+        var requiredFields = [form.firstName, form.classe, form.shoeSize, form.hasNavigo];
+        requiredFields.forEach(function (field) {
+          if (!field) return;
+          var clearInvalid = function () {
+            var value = (field.value || "").trim();
+            if (value) field.classList.remove("is-invalid");
+          };
+          field.addEventListener("input", clearInvalid);
+          field.addEventListener("change", clearInvalid);
+        });
 
         form.addEventListener("submit", function (ev) {
           ev.preventDefault();
+          var submitBtn = form.querySelector(".as-register-submit");
           var firstName = form.firstName.value.trim();
           var classe = form.classe.value.trim();
           var shoeSize = form.shoeSize.value.trim();
           var hasNavigo = form.hasNavigo.value;
+          var missing = [];
 
-          if (!firstName || !classe || !shoeSize || !hasNavigo) {
+          requiredFields.forEach(function (field) {
+            if (!field) return;
+            var value = (field.value || "").trim();
+            if (!value) {
+              field.classList.add("is-invalid");
+              missing.push(field);
+            } else {
+              field.classList.remove("is-invalid");
+            }
+          });
+
+          if (missing.length) {
             note.textContent = "Merci de remplir tous les champs avant de valider l’inscription.";
+            if (missing[0] && typeof missing[0].focus === "function") missing[0].focus();
             return;
           }
 
@@ -1475,74 +1675,26 @@
           };
           saveRegistrationForDate(dateKey, payload);
 
-          if (AS_CALENDAR_SETTINGS.registrationWebhook) {
-            try {
-              // Soumission POST via formulaire caché (très compatible Apps Script / iOS)
-              var iframeName = "asWebhookTarget";
-              var targetIframe = document.querySelector('iframe[name="' + iframeName + '"]');
-              if (!targetIframe) {
-                targetIframe = document.createElement("iframe");
-                targetIframe.name = iframeName;
-                targetIframe.style.display = "none";
-                document.body.appendChild(targetIframe);
-              }
-
-              var postForm = document.createElement("form");
-              postForm.method = "POST";
-              postForm.action = AS_CALENDAR_SETTINGS.registrationWebhook;
-              postForm.target = iframeName;
-              postForm.style.display = "none";
-
-              function addField(name, value) {
-                var input = document.createElement("input");
-                input.type = "hidden";
-                input.name = name;
-                input.value = value || "";
-                postForm.appendChild(input);
-              }
-
-              addField("date", payload.date);
-              addField("type", payload.type);
-              addField("horaires", payload.horaires);
-              addField("lieu", payload.lieu);
-              addField("firstName", payload.firstName);
-              addField("classe", payload.classe);
-              addField("shoeSize", payload.shoeSize);
-              addField("hasNavigo", payload.hasNavigo);
-              addField("createdAt", payload.createdAt);
-
-              document.body.appendChild(postForm);
-              postForm.submit();
-              setTimeout(function () {
-                try { postForm.remove(); } catch (e) {}
-              }, 1500);
-
-              note.textContent = "Inscription enregistrée. Envoi vers Google Sheets déclenché.";
-              form.reset();
-            } catch (err) {
-              note.textContent = "Inscription enregistrée localement, mais envoi Google Sheets impossible.";
-              form.reset();
-            }
-          } else if (AS_CALENDAR_SETTINGS.registrationEmail) {
-            var subject = encodeURIComponent("Inscription AS - " + dateKey);
-            var body = encodeURIComponent(
-              "Date : " + dateKey + "\\n" +
-              "Type : " + (payload.type || "—") + "\\n" +
-              "Horaires : " + (payload.horaires || "—") + "\\n" +
-              "Lieu : " + (payload.lieu || "—") + "\\n\\n" +
-              "Prénom : " + payload.firstName + "\\n" +
-              "Classe : " + payload.classe + "\\n" +
-              "Pointure des chaussons : " + payload.shoeSize + "\\n" +
-              "Pass Navigo valide : " + payload.hasNavigo
-            );
-            window.location.href = "mailto:" + encodeURIComponent(AS_CALENDAR_SETTINGS.registrationEmail) + "?subject=" + subject + "&body=" + body;
-            note.textContent = "Inscription enregistrée. Un email est prêt à être envoyé.";
-            form.reset();
-          } else {
-            note.textContent = "Inscription enregistrée sur cet appareil. Ajoute un webhook Google Sheets pour centraliser automatiquement.";
-            form.reset();
+          note.textContent = "Inscription enregistrée sur cet appareil.";
+          if (submitBtn) {
+            submitBtn.textContent = "Tu es inscrit(e)";
+            submitBtn.classList.add("is-confirmed");
           }
+          form.reset();
+          renderRegistrationsForDate(dateKey);
         });
+
+        if (resetBtn) {
+          resetBtn.addEventListener("click", function () {
+            var ok = window.confirm("Supprimer toutes les inscriptions enregistrées sur cet appareil ?");
+            if (!ok) return;
+            clearAllRegistrations();
+            note.textContent = "Toutes les inscriptions ont été réinitialisées.";
+            renderRegistrationsForDate(dateKey);
+          });
+        }
+
+        renderRegistrationsForDate(dateKey);
       }
 
       function getTypeEmoji(type) {
@@ -1619,11 +1771,7 @@
             })
             .then(function (data) {
               if (data && typeof data === "object") {
-                if (data._settings && typeof data._settings === "object") {
-                  AS_CALENDAR_SETTINGS.registrationEmail = data._settings.registrationEmail || "";
-                    AS_CALENDAR_SETTINGS.registrationWebhook = data._settings.registrationWebhook || "";
-                  delete data._settings;
-                }
+                  if (data._settings && typeof data._settings === "object") delete data._settings;
                 AS_CALENDAR_EVENTS = data;
               }
             })
@@ -2155,7 +2303,6 @@
         if (sectionId === "as" && title === "Calendrier") {
           initAsCalendar();
         }
-
         showOnly(detailMenu);
       }
 

@@ -1,8 +1,4 @@
 {
-  "_settings": {
-    "registrationEmail": "adrien.lafay@ac-creteil.fr",
-    "registrationWebhook": "https://script.google.com/macros/s/AKfycbyJxjYXnAryW7mNGeYIv3n5yOvO7bhOxB6MXuHN8gOTRb-7zrowSZMNxvnB-ZO_3z0/exec"
-  },
   "2026-04-22": {
     "type": "Vacances"
   },
