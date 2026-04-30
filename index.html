@@ -1810,7 +1810,9 @@
           type: e && e.type ? e.type : "",
           horaires: e && e.horaires ? e.horaires : "",
           lieu: e && e.lieu ? e.lieu : "",
-          infos: e && e.infos ? e.infos : ""
+          infos: e && e.infos ? e.infos : "",
+          docUrl: e && e.docUrl ? e.docUrl : "",
+          docLabel: e && e.docLabel ? e.docLabel : "Télécharger le document (PDF)"
         };
         var t = String(ev.type || "").toLowerCase();
         var isTraining = t.indexOf("entraînement") >= 0 || t.indexOf("entrainement") >= 0;
@@ -1964,7 +1966,9 @@
                   type: "",
                   horaires: "",
                   lieu: "",
-                  infos: ""
+                  infos: "",
+                  docUrl: "",
+                  docLabel: ""
                 });
                 var t = String(e.type || "").toLowerCase();
                 var isVacation = t.indexOf("vacances") >= 0;
@@ -1978,11 +1982,15 @@
                 var infoLineHtml = infoHtml ? ("Informations complémentaires : " + infoHtml) : "";
                 var typeLineHtml = e.type ? (escapeHtml(e.type) + "<br>") : "";
                 var lieuLineHtml = ((!isVacation && !isCancelled) && e.lieu) ? (escapeHtml(e.lieu) + mapLinkHtml + "<br>") : "";
+                var docLineHtml = e.docUrl
+                  ? ('<br><a class="detail-resource-link" href="' + encodeURI(e.docUrl) + '" download>' + escapeHtml(e.docLabel || "Télécharger le document (PDF)") + "</a>")
+                  : "";
                 detailEl.innerHTML =
                   "<strong>" + escapeHtml(formatLongDateFrFromKey(key)) + ((isVacation || isCancelled) ? "" : (" — Horaire : " + escapeHtml(e.horaires || "—"))) + "</strong><br>" +
                   typeLineHtml +
                   lieuLineHtml +
                   infoLineHtml +
+                  docLineHtml +
                   (canRegisterForType(e.type) ? '<div id="asRegisterHost"><div class="as-register-wrap"><button class="as-register-btn" type="button" id="asRegisterToggle">S’inscrire</button></div></div>' : "");
 
                 if (canRegisterForType(e.type)) {

@@ -16,7 +16,9 @@
     "type": "Sortie",
     "horaires": "8h15 - 16h30/17h",
     "lieu": "Climb'Up Aubervilliers, 110 Avenue Victor Hugo, Aubervilliers",
-    "infos": "Prévoir tenue pour pratiquer + repas froid pour le midi !"
+    "infos": "Prévoir tenue pour pratiquer + repas froid pour le midi !",
+    "docUrl": "autorisation-climbup-20-mai.pdf",
+    "docLabel": "Télécharger l'autorisation de sortie (PDF)"
   },
   "2026-05-27": {
     "type": "Entraînement"
