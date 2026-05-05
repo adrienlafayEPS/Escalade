@@ -31,6 +31,13 @@
     "type": "Entraînement + goûter",
     "infos": "Dernier entraînement de l'année ! Merci de prévoir de quoi faire un beau goûter pour clôturer cette magnifique année scolaire 😉!"
   },
+  "2026-06-15": {
+    "type": "Sortie Accrobranche",
+    "horaires": "9h15-17h30",
+    "lieu": "Forêt Régionale de Bondy, 2 Allée Rue Jean Jaurès, 93470 Coubron",
+    "infos": "La liste des élèves concernés + la feuille d'inscription seront bientôt disponibles.",
+    "allowRegistration": false
+  },
   "2026-06-17": {
     "type": "créneau AS annulé",
     "infos": "Dolto Show, pas d'entraînement, créneau AS annulé"

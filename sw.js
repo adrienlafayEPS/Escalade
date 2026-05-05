@@ -1,4 +1,4 @@
-const CACHE_NAME = "escalade-core-v2";
+const CACHE_NAME = "escalade-core-v3";
 const CORE_ASSETS = [
   "./",
   "./index.html",
