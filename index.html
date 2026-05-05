@@ -620,6 +620,24 @@
       font-weight: 800;
     }
 
+    .as-calendar-cell.is-outing-event {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
+      color: #0c4a6e;
+      cursor: pointer;
+      position: relative;
+      font-weight: 800;
+    }
+
+    .as-calendar-cell.is-competition-event {
+      background: #ede9fe;
+      border-color: #c4b5fd;
+      color: #5b21b6;
+      cursor: pointer;
+      position: relative;
+      font-weight: 800;
+    }
+
     .as-calendar-emoji {
       position: absolute;
       top: 0;
@@ -1605,6 +1623,11 @@
         return t.indexOf("sortie") >= 0 || t.indexOf("compétition") >= 0 || t.indexOf("competition") >= 0;
       }
 
+      function canRegisterForEvent(eventData) {
+        if (eventData && eventData.allowRegistration === false) return false;
+        return canRegisterForType(eventData && eventData.type);
+      }
+
       function registrationStorageKey(dateKey) {
         return "as-registration:" + dateKey;
       }
@@ -1812,7 +1835,8 @@
           lieu: e && e.lieu ? e.lieu : "",
           infos: e && e.infos ? e.infos : "",
           docUrl: e && e.docUrl ? e.docUrl : "",
-          docLabel: e && e.docLabel ? e.docLabel : "Télécharger le document (PDF)"
+          docLabel: e && e.docLabel ? e.docLabel : "Télécharger le document (PDF)",
+          allowRegistration: e && typeof e.allowRegistration === "boolean" ? e.allowRegistration : true
         };
         var t = String(ev.type || "").toLowerCase();
         var isTraining = t.indexOf("entraînement") >= 0 || t.indexOf("entrainement") >= 0;
@@ -1943,6 +1967,8 @@
           var isPast = dateAtMidnight < today;
           var eventDataRaw = AS_CALENDAR_EVENTS[dateKey] || {};
           var typeLower = String(eventDataRaw.type || "").toLowerCase();
+          var isSortie = typeLower.indexOf("sortie") >= 0;
+          var isCompetition = typeLower.indexOf("compétition") >= 0 || typeLower.indexOf("competition") >= 0;
           var isCancelled = typeLower.indexOf("annulé") >= 0 || typeLower.indexOf("annule") >= 0;
           var isVacation = typeLower.indexOf("vacances") >= 0;
 
@@ -1950,6 +1976,8 @@
           dayCell.type = "button";
           dayCell.className = "as-calendar-cell";
           if (!inCurrentMonth || isAfterEndDate) dayCell.classList.add("is-out");
+          if (isSortie && inCurrentMonth) dayCell.classList.add("is-outing-event");
+          if (isCompetition && inCurrentMonth) dayCell.classList.add("is-competition-event");
           if (isWednesday && inCurrentMonth) dayCell.classList.add("is-training");
           if (isCancelled && inCurrentMonth) dayCell.classList.add("is-cancelled");
           if (isVacation && inCurrentMonth) dayCell.classList.add("is-vacation");
@@ -1957,7 +1985,7 @@
           if (dateKey === asCalendarState.selectedDate) dayCell.classList.add("is-selected");
           dayCell.textContent = String(d);
 
-          if (isWednesday && inCurrentMonth && !isAfterEndDate) {
+          if ((isWednesday || hasEvent) && inCurrentMonth && !isAfterEndDate) {
             dayCell.onclick = (function (key) {
               return function () {
                 asCalendarState.selectedDate = key;
@@ -1991,9 +2019,9 @@
                   lieuLineHtml +
                   infoLineHtml +
                   docLineHtml +
-                  (canRegisterForType(e.type) ? '<div id="asRegisterHost"><div class="as-register-wrap"><button class="as-register-btn" type="button" id="asRegisterToggle">S’inscrire</button></div></div>' : "");
+                  (canRegisterForEvent(e) ? '<div id="asRegisterHost"><div class="as-register-wrap"><button class="as-register-btn" type="button" id="asRegisterToggle">S’inscrire</button></div></div>' : "");
 
-                if (canRegisterForType(e.type)) {
+                if (canRegisterForEvent(e)) {
                   var toggle = document.getElementById("asRegisterToggle");
                   if (toggle) {
                     toggle.addEventListener("click", function () {
@@ -2007,7 +2035,7 @@
             dayCell.disabled = true;
           }
 
-          if (isWednesday && inCurrentMonth && !isAfterEndDate) {
+          if ((isWednesday || hasEvent) && inCurrentMonth && !isAfterEndDate) {
             var eventData = enrichAsEvent(eventDataRaw);
             var em = getTypeEmoji(eventData && eventData.type);
             if (em) {
